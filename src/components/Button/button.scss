@@ -1,0 +1,32 @@
+@import "../../scss/main.scss";
+
+.button {
+  margin: 5px 0;
+  font-family: $base-font;
+  font-weight: 700;
+  outline: none;
+  transition: opacity 0.2s ease-out;
+  &:hover {
+    opacity: 0.85;
+  }
+  &--primary {
+    background: $mainColor;
+    border: 1px solid $mainColor;
+    color: $whiteColor;
+    padding: 4px 15px;
+    border-radius: 5px;
+  }
+  &--secondary {
+    background: $whiteColor;
+    border: 1px solid $tertiaryColor;
+    color: $tertiaryColor;
+    padding: 4px 15px;
+    border-radius: 5px;
+  }
+  &--tertiary {
+    background: none;
+    border: none;
+    color: $mainColor;
+    text-decoration: underline;
+  }
+}
