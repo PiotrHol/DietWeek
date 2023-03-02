@@ -29,11 +29,15 @@ export const Button = ({
     fontSize: `${buttonTextSize}px`,
     width: buttonFitWidth ? "fit-content" : "100%",
   };
+  const onDefaultButtonClick = (e) => {
+    e.preventDefault();
+    buttonHandleClick();
+  };
   return (
     <button
       className={classNames("button", buttonStyleClass)}
       type={buttonType ? buttonType : "button"}
-      onClick={buttonHandleClick ? buttonHandleClick : null}
+      onClick={buttonHandleClick ? (e) => onDefaultButtonClick(e) : null}
       style={buttonCssStyle}
     >
       {buttonText}
