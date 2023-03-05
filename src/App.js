@@ -4,6 +4,7 @@ import { HashRouter, Switch, Route } from "react-router-dom";
 import { PrivateRoute } from "./PrivateRoute";
 import { Redirect } from "react-router-dom";
 import { DesktopNotAvailable } from "./components/DesktopNotAvailable/DesktopNotAvailable";
+import { LogPage } from "./components/LogPage/LogPage";
 
 function App() {
   const [isDesktopView, setIsDesktopView] = useState(
@@ -28,7 +29,9 @@ function App() {
             <PrivateRoute exact path="/">
               Home
             </PrivateRoute>
-            <Route path="/login"></Route>
+            <Route path="/login">
+              <LogPage />
+            </Route>
             <Route path="*">
               <Redirect to="/" />
             </Route>
