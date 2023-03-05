@@ -8,17 +8,21 @@ import { Button } from "../Button/Button";
 export const LogPage = () => {
   const [isNewAccountForm, setIsNewAccountForm] = useState(false);
   const [isRemindPasswordForm, setIsRemindPasswordForm] = useState(false);
+  const [isRemindInfoText, setIsRemindInfoText] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
     clearErrors,
+    watch,
+    reset,
   } = useForm();
   const onNewAccountSubmit = (formData) => {
     console.log(formData);
   };
   const onRemindSubmit = (formData) => {
     console.log(formData);
+    setIsRemindInfoText(true);
   };
   const onLogInSubmit = (formData) => {
     console.log(formData);
@@ -38,7 +42,15 @@ export const LogPage = () => {
               inputPlaceholder="Email"
               inputOptions={register("email", {
                 required: "Podaj adres email",
-                maxLength: 50,
+                maxLength: {
+                  value: 50,
+                  message: "Podaj poprawny adres email",
+                },
+                pattern: {
+                  // eslint-disable-next-line
+                  value: /^[\w\.]+@([\w]+\.)+[\w]{2,4}$/gm,
+                  message: "Podaj poprawny adres email",
+                },
               })}
               formErrors={errors}
             />
@@ -49,7 +61,12 @@ export const LogPage = () => {
               inputPlaceholder="Hasło"
               inputOptions={register("password", {
                 required: "Podaj swoje hasło",
-                maxLength: 50,
+                pattern: {
+                  value:
+                    /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/gm,
+                  message:
+                    "Hasło powinno mieć: min. 8 znaków, max. 16 znaków, 1 dużą literę, 1 cyfrę i 1 znak specjalny",
+                },
               })}
               formErrors={errors}
             />
@@ -60,7 +77,11 @@ export const LogPage = () => {
               inputPlaceholder="Hasło"
               inputOptions={register("repeatPassword", {
                 required: "Podaj swoje hasło jeszcze raz",
-                maxLength: 50,
+                validate: {
+                  theSame: (value) =>
+                    watch("password") === value ||
+                    "Hasła muszą być takie same!",
+                },
               })}
               formErrors={errors}
             />
@@ -80,29 +101,47 @@ export const LogPage = () => {
                 setIsNewAccountForm(false);
                 setIsRemindPasswordForm(false);
                 clearErrors();
+                reset();
               }}
             />
           </form>
         ) : isRemindPasswordForm ? (
           <form onSubmit={handleSubmit(onRemindSubmit)}>
-            <FormInput
-              inputName="email"
-              labelText="Email"
-              inputType="email"
-              inputPlaceholder="Email"
-              inputOptions={register("email", {
-                required: "Podaj adres email",
-                maxLength: 50,
-              })}
-              formErrors={errors}
-            />
-            <Button
-              buttonStyle="primary"
-              buttonText="Dalej"
-              buttonTextSize={16}
-              buttonFitWidth={false}
-              buttonType="submit"
-            />
+            {isRemindInfoText ? (
+              <p className="log-page__remind-text">
+                Na podany adres email została wysłana wiadomość z linkiem do
+                przywrócenia hasła
+              </p>
+            ) : (
+              <>
+                <FormInput
+                  inputName="email"
+                  labelText="Email"
+                  inputType="email"
+                  inputPlaceholder="Email"
+                  inputOptions={register("email", {
+                    required: "Podaj adres email",
+                    maxLength: {
+                      value: 50,
+                      message: "Podaj poprawny adres email",
+                    },
+                    pattern: {
+                      // eslint-disable-next-line
+                      value: /^[\w\.]+@([\w]+\.)+[\w]{2,4}$/gm,
+                      message: "Podaj poprawny adres email",
+                    },
+                  })}
+                  formErrors={errors}
+                />
+                <Button
+                  buttonStyle="primary"
+                  buttonText="Dalej"
+                  buttonTextSize={16}
+                  buttonFitWidth={false}
+                  buttonType="submit"
+                />
+              </>
+            )}
             <Button
               buttonStyle="tertiary"
               buttonText="Zaloguj się"
@@ -111,7 +150,9 @@ export const LogPage = () => {
               buttonHandleClick={() => {
                 setIsNewAccountForm(false);
                 setIsRemindPasswordForm(false);
+                setIsRemindInfoText(false);
                 clearErrors();
+                reset();
               }}
             />
           </form>
@@ -124,7 +165,15 @@ export const LogPage = () => {
               inputPlaceholder="Email"
               inputOptions={register("email", {
                 required: "Podaj adres email",
-                maxLength: 50,
+                maxLength: {
+                  value: 50,
+                  message: "Podaj poprawny adres email",
+                },
+                pattern: {
+                  // eslint-disable-next-line
+                  value: /^[\w\.]+@([\w]+\.)+[\w]{2,4}$/gm,
+                  message: "Podaj poprawny adres email",
+                },
               })}
               formErrors={errors}
             />
@@ -135,7 +184,12 @@ export const LogPage = () => {
               inputPlaceholder="Hasło"
               inputOptions={register("password", {
                 required: "Podaj swoje hasło",
-                maxLength: 50,
+                pattern: {
+                  value:
+                    /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/gm,
+                  message:
+                    "Hasło powinno mieć: min. 8 znaków, max. 16 znaków, 1 dużą literę, 1 cyfrę i 1 znak specjalny",
+                },
               })}
               formErrors={errors}
             />
@@ -155,6 +209,7 @@ export const LogPage = () => {
                 setIsNewAccountForm(true);
                 setIsRemindPasswordForm(false);
                 clearErrors();
+                reset();
               }}
             />
             <Button
@@ -166,6 +221,7 @@ export const LogPage = () => {
                 setIsNewAccountForm(false);
                 setIsRemindPasswordForm(true);
                 clearErrors();
+                reset();
               }}
             />
           </form>
