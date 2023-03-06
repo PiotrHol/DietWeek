@@ -1,13 +1,20 @@
+import { typeName } from "../actions/authActions";
+
 const initialState = {
   userId: null,
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case "auth/setUser":
+    case typeName.setUser:
       return {
         ...state,
-        id: payload,
+        userId: payload,
+      };
+    case typeName.removeUser:
+      return {
+        ...state,
+        userId: null,
       };
     default:
       return state;
