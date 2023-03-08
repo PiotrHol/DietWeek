@@ -1,5 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./logPage.scss";
+import {
+  getAuth,
+  setPersistence,
+  browserSessionPersistence,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Logo } from "../Logo/Logo";
 import { useForm } from "react-hook-form";
 import { FormInput } from "../FormInput/FormInput";
@@ -17,15 +27,67 @@ export const LogPage = () => {
     watch,
     reset,
   } = useForm();
-  const onNewAccountSubmit = (formData) => {
-    console.log(formData);
+  const isAuth = useSelector((state) => state.auth.userId);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (isAuth) {
+      history.push("/");
+    }
+    // eslint-disable-next-line
+  }, [isAuth]);
+
+  const onNewAccountSubmit = ({ email, password }) => {
+    const auth = getAuth();
+    setPersistence(auth, browserSessionPersistence).then(async () => {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+      } catch (e) {
+        switch (e.code) {
+          case "auth/email-already-in-use":
+            console.log("Konto o podanym adresie email już istnieje!");
+            break;
+          default:
+            console.log("Niepoprawne dane!");
+            break;
+        }
+      }
+    });
   };
-  const onRemindSubmit = (formData) => {
-    console.log(formData);
-    setIsRemindInfoText(true);
+  const onRemindSubmit = async ({ email }) => {
+    try {
+      await sendPasswordResetEmail(getAuth(), email);
+      setIsRemindInfoText(true);
+    } catch (e) {
+      switch (e.code) {
+        case "auth/user-not-found":
+          console.log("Nie posiadasz jeszcze konta. Załóż je!");
+          break;
+        default:
+          console.log("Niepoprawne dane!");
+          break;
+      }
+    }
   };
-  const onLogInSubmit = (formData) => {
-    console.log(formData);
+  const onLogInSubmit = ({ email, password }) => {
+    const auth = getAuth();
+    setPersistence(auth, browserSessionPersistence).then(async () => {
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (e) {
+        switch (e.code) {
+          case "auth/user-not-found":
+            console.log("Nie posiadasz jeszcze konta. Załóż je!");
+            break;
+          case "auth/wrong-password":
+            console.log("Niepoprawne hasło!");
+            break;
+          default:
+            console.log("Niepoprawne dane!");
+            break;
+        }
+      }
+    });
   };
   return (
     <div className="log-page">
