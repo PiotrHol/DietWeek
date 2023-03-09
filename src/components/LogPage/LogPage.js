@@ -19,6 +19,7 @@ export const LogPage = () => {
   const [isNewAccountForm, setIsNewAccountForm] = useState(false);
   const [isRemindPasswordForm, setIsRemindPasswordForm] = useState(false);
   const [isRemindInfoText, setIsRemindInfoText] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
   const {
     register,
     handleSubmit,
@@ -37,6 +38,15 @@ export const LogPage = () => {
     // eslint-disable-next-line
   }, [isAuth]);
 
+  useEffect(() => {
+    if (submitError) {
+      const submitErrorTimeout = setTimeout(() => {
+        setSubmitError(null);
+        clearTimeout(submitErrorTimeout);
+      }, 3000);
+    }
+  }, [submitError]);
+
   const onNewAccountSubmit = ({ email, password }) => {
     const auth = getAuth();
     setPersistence(auth, browserSessionPersistence).then(async () => {
@@ -45,10 +55,10 @@ export const LogPage = () => {
       } catch (e) {
         switch (e.code) {
           case "auth/email-already-in-use":
-            console.log("Konto o podanym adresie email już istnieje!");
+            setSubmitError("Konto o podanym adresie email już istnieje!");
             break;
           default:
-            console.log("Niepoprawne dane!");
+            setSubmitError("Niepoprawne dane!");
             break;
         }
       }
@@ -61,10 +71,10 @@ export const LogPage = () => {
     } catch (e) {
       switch (e.code) {
         case "auth/user-not-found":
-          console.log("Nie posiadasz jeszcze konta. Załóż je!");
+          setSubmitError("Nie posiadasz jeszcze konta. Załóż je!");
           break;
         default:
-          console.log("Niepoprawne dane!");
+          setSubmitError("Niepoprawne dane!");
           break;
       }
     }
@@ -77,13 +87,13 @@ export const LogPage = () => {
       } catch (e) {
         switch (e.code) {
           case "auth/user-not-found":
-            console.log("Nie posiadasz jeszcze konta. Załóż je!");
+            setSubmitError("Nie posiadasz jeszcze konta. Załóż je!");
             break;
           case "auth/wrong-password":
-            console.log("Niepoprawne hasło!");
+            setSubmitError("Niepoprawne hasło!");
             break;
           default:
-            console.log("Niepoprawne dane!");
+            setSubmitError("Niepoprawne dane!");
             break;
         }
       }
@@ -147,6 +157,9 @@ export const LogPage = () => {
               })}
               formErrors={errors}
             />
+            {submitError ? (
+              <p className="log-page__error">{submitError}</p>
+            ) : null}
             <Button
               buttonStyle="primary"
               buttonText="Załóż konto"
@@ -163,6 +176,7 @@ export const LogPage = () => {
                 setIsNewAccountForm(false);
                 setIsRemindPasswordForm(false);
                 clearErrors();
+                setSubmitError(null);
                 reset();
               }}
             />
@@ -195,6 +209,9 @@ export const LogPage = () => {
                   })}
                   formErrors={errors}
                 />
+                {submitError ? (
+                  <p className="log-page__error">{submitError}</p>
+                ) : null}
                 <Button
                   buttonStyle="primary"
                   buttonText="Dalej"
@@ -214,6 +231,7 @@ export const LogPage = () => {
                 setIsRemindPasswordForm(false);
                 setIsRemindInfoText(false);
                 clearErrors();
+                setSubmitError(null);
                 reset();
               }}
             />
@@ -255,6 +273,9 @@ export const LogPage = () => {
               })}
               formErrors={errors}
             />
+            {submitError ? (
+              <p className="log-page__error">{submitError}</p>
+            ) : null}
             <Button
               buttonStyle="primary"
               buttonText="Zaloguj się"
@@ -271,6 +292,7 @@ export const LogPage = () => {
                 setIsNewAccountForm(true);
                 setIsRemindPasswordForm(false);
                 clearErrors();
+                setSubmitError(null);
                 reset();
               }}
             />
@@ -283,6 +305,7 @@ export const LogPage = () => {
                 setIsNewAccountForm(false);
                 setIsRemindPasswordForm(true);
                 clearErrors();
+                setSubmitError(null);
                 reset();
               }}
             />
