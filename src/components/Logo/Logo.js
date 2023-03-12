@@ -23,7 +23,13 @@ export const Logo = ({ size }) => {
           icon={faUtensils}
         />
       </div>
-      <h1 className="logo__title" style={{ fontSize: `${size / 1.5}px` }}>
+      <h1
+        className="logo__title"
+        style={{
+          fontSize: `${size / 1.5}px`,
+          marginLeft: `${size / 3.333}px`,
+        }}
+      >
         DietWeek
       </h1>
     </div>
