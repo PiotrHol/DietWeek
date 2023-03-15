@@ -1,0 +1,62 @@
+@import "../../scss/main.scss";
+
+.menu {
+  width: 100%;
+  height: 56px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  border-top: 3px solid $mainColor;
+  color: $secondaryTextColor;
+  &__item {
+    width: calc(100% / 5);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    &:focus {
+      outline: none;
+    }
+    &-icon {
+      font-size: 20px;
+    }
+    &-text {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      font-size: 11px;
+      text-align: center;
+      margin-top: 3px;
+    }
+    &--active {
+      color: $mainColor;
+    }
+  }
+  &__submenu {
+    width: calc((100% / 5) - 2px);
+    position: fixed;
+    bottom: 5px;
+    right: 2px;
+    display: flex;
+    flex-direction: column-reverse;
+    box-shadow: 0.5px 0.5px 8px $shadowColor;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    transform: scaleY(0);
+    transition: transform 0.3s ease-out, bottom 0.3s ease-out;
+    &--show {
+      bottom: 56px;
+      transform: scaleY(1);
+    }
+    &-item {
+      width: 100%;
+      padding: 8px 4px;
+    }
+  }
+}
