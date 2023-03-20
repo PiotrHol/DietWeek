@@ -1,0 +1,19 @@
+@import "../../scss/main.scss";
+
+.home {
+  width: 100%;
+  padding: 20px;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $mainColor;
+    padding: 5px 10px 15px;
+  }
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+    color: $tertiaryColor;
+  }
+}
