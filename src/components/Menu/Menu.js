@@ -10,9 +10,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar, faUser } from "@fortawesome/free-regular-svg-icons";
 import classNames from "classnames";
+import { Link } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
 
-export const Menu = () => {
+export const Menu = ({ url }) => {
   const [showSubmenu, setShowSubmenu] = useState(false);
+  const [isSettingsPage, setIsSettingsPage] = useState(false);
   const submenuRef = useRef(null);
 
   const handleSubmenuToggle = () => {
@@ -31,26 +34,47 @@ export const Menu = () => {
     }
   };
 
+  const updateActiveMenuItem = (e) => {
+    const allMenuItems = document.querySelectorAll(".menu__item");
+    for (const menuItem of allMenuItems) {
+      menuItem.classList.remove("menu__item--active");
+    }
+    setShowSubmenu(false);
+    setIsSettingsPage(false);
+    e.currentTarget.classList.add("menu__item--active");
+  };
+
   return (
     <ul className="menu">
-      <li className="menu__item">
-        <FontAwesomeIcon icon={faHome} className="menu__item-icon" />
-        <span className="menu__item-text">Strona główna</span>
-      </li>
-      <li className="menu__item">
-        <FontAwesomeIcon icon={faUtensils} className="menu__item-icon" />
-        <span className="menu__item-text">Przepisy</span>
-      </li>
-      <li className="menu__item">
-        <FontAwesomeIcon icon={faCalendar} className="menu__item-icon" />
-        <span className="menu__item-text">Tygodnie</span>
-      </li>
-      <li className="menu__item">
-        <FontAwesomeIcon icon={faList} className="menu__item-icon" />
-        <span className="menu__item-text">Lista zakupów</span>
-      </li>
+      <Link className="menu__link" to={url}>
+        <li
+          className="menu__item menu__item--active"
+          onClick={updateActiveMenuItem}
+        >
+          <FontAwesomeIcon icon={faHome} className="menu__item-icon" />
+          <span className="menu__item-text">Strona główna</span>
+        </li>
+      </Link>
+      <Link className="menu__link" to={`${url}/recipes`}>
+        <li className="menu__item" onClick={updateActiveMenuItem}>
+          <FontAwesomeIcon icon={faUtensils} className="menu__item-icon" />
+          <span className="menu__item-text">Przepisy</span>
+        </li>
+      </Link>
+      <Link className="menu__link" to={`${url}/weeks`}>
+        <li className="menu__item" onClick={updateActiveMenuItem}>
+          <FontAwesomeIcon icon={faCalendar} className="menu__item-icon" />
+          <span className="menu__item-text">Tygodnie</span>
+        </li>
+      </Link>
+      <Link className="menu__link" to={`${url}/shopping-list`}>
+        <li className="menu__item" onClick={updateActiveMenuItem}>
+          <FontAwesomeIcon icon={faList} className="menu__item-icon" />
+          <span className="menu__item-text">Lista zakupów</span>
+        </li>
+      </Link>
       <li
-        className={classNames("menu__item hide-on-desktop", {
+        className={classNames("menu__link menu__item hide-on-desktop", {
           "menu__item--active": showSubmenu,
         })}
         onClick={handleSubmenuToggle}
@@ -60,11 +84,27 @@ export const Menu = () => {
       </li>
       {showSubmenu && (
         <div ref={submenuRef} className="menu__submenu hide-on-desktop">
-          <li className="menu__item menu__submenu-item">
-            <FontAwesomeIcon icon={faGear} className="menu__item-icon" />
-            <span className="menu__item-text">Ustawienia</span>
-          </li>
-          <li className="menu__item menu__submenu-item">
+          <Link
+            className="menu__link menu__submenu-item"
+            to={`${url}/settings`}
+          >
+            <li
+              className={classNames("menu__item", {
+                "menu__item--active": isSettingsPage,
+              })}
+              onClick={(e) => {
+                updateActiveMenuItem(e);
+                setIsSettingsPage(true);
+              }}
+            >
+              <FontAwesomeIcon icon={faGear} className="menu__item-icon" />
+              <span className="menu__item-text">Ustawienia</span>
+            </li>
+          </Link>
+          <li
+            className="menu__item menu__submenu-item"
+            onClick={() => signOut(getAuth())}
+          >
             <FontAwesomeIcon
               icon={faRightFromBracket}
               className="menu__item-icon"
@@ -73,11 +113,16 @@ export const Menu = () => {
           </li>
         </div>
       )}
-      <li className="menu__item hide-on-mobile">
-        <FontAwesomeIcon icon={faGear} className="menu__item-icon" />
-        <span className="menu__item-text">Ustawienia</span>
-      </li>
-      <li className="menu__item hide-on-mobile">
+      <Link className="menu__link hide-on-mobile" to={`${url}/settings`}>
+        <li className="menu__item" onClick={updateActiveMenuItem}>
+          <FontAwesomeIcon icon={faGear} className="menu__item-icon" />
+          <span className="menu__item-text">Ustawienia</span>
+        </li>
+      </Link>
+      <li
+        className="menu__item hide-on-mobile"
+        onClick={() => signOut(getAuth())}
+      >
         <FontAwesomeIcon
           icon={faRightFromBracket}
           className="menu__item-icon"
