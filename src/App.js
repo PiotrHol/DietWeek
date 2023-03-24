@@ -43,14 +43,14 @@ function App() {
       ) : (
         <HashRouter basename="/">
           <Switch>
-            <PrivateRoute exact path="/">
+            <PrivateRoute path="/home">
               <Home />
             </PrivateRoute>
             <Route path="/login">
               <LogPage />
             </Route>
             <Route path="*">
-              <Redirect to="/" />
+              <Redirect to="/home" />
             </Route>
           </Switch>
         </HashRouter>
