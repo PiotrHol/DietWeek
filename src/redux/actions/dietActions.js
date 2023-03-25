@@ -1,0 +1,3 @@
+const typeName = {};
+
+export { typeName };
