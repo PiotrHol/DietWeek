@@ -8,6 +8,8 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
 } from "firebase/auth";
+import { doc, setDoc, getFirestore } from "firebase/firestore";
+import { app } from "../../firebase";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Logo } from "../Logo/Logo";
@@ -51,7 +53,15 @@ export const LogPage = () => {
     const auth = getAuth();
     setPersistence(auth, browserSessionPersistence).then(async () => {
       try {
-        await createUserWithEmailAndPassword(auth, email, password);
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        await setDoc(
+          doc(getFirestore(app), "users", userCredential.user.uid),
+          {}
+        );
       } catch (e) {
         switch (e.code) {
           case "auth/email-already-in-use":
