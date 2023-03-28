@@ -17,6 +17,8 @@
   }
   &__content {
     width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
     background: $bgColor;
     border: 1px solid $borderColor;
     border-radius: 8px;
@@ -52,6 +54,6 @@
     }
   }
   &__main {
-    padding: 10px 10px 0;
+    padding-top: 10px;
   }
 }
