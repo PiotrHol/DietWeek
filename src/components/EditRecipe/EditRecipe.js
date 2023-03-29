@@ -21,7 +21,12 @@ export const EditRecipe = ({
   const [newIngredientNameError, setNewIngredientNameError] = useState(false);
   const [newIngredientQuantityError, setNewIngredientQuantityError] =
     useState(false);
-  const { register, formState: errors, setValue } = useForm();
+  const {
+    register,
+    formState: { errors },
+    setValue,
+    handleSubmit,
+  } = useForm();
 
   useEffect(() => {
     if (recipeName) {
@@ -78,15 +83,29 @@ export const EditRecipe = ({
     }
   };
 
+  const saveRecipe = (data) => {
+    console.log(data);
+  };
+
   return (
     <div className="edit-recipe">
-      <form>
+      <form onSubmit={handleSubmit(saveRecipe)}>
         <FormInput
           inputName="recipeName"
           labelText="Nazwa"
           inputType="text"
           inputPlaceholder="Nazwa"
-          inputOptions={register("recipeName")}
+          inputOptions={register("recipeName", {
+            required: "Musisz podać nazwę przepisu",
+            maxLength: {
+              value: 20,
+              message: "Nazwa może zawierać maksymalnie 20 znaków",
+            },
+            pattern: {
+              value: /^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź ]*$/g,
+              message: "Nazwa zawiera nieprawidłowe znaki",
+            },
+          })}
           formErrors={errors}
         />
         <FormInput
@@ -94,7 +113,13 @@ export const EditRecipe = ({
           labelText="Kalorie (kcal)"
           inputType="number"
           inputPlaceholder="Liczba kalorii"
-          inputOptions={register("recipeCalories")}
+          inputOptions={register("recipeCalories", {
+            required: "Musisz podać liczbę kalorii",
+            max: {
+              value: 10000,
+              message: "Maksymalna liczba kalorii to 10000",
+            },
+          })}
           formErrors={errors}
         />
         <div className="edit-recipe__ingredients">
@@ -179,7 +204,16 @@ export const EditRecipe = ({
             className="edit-recipe__description-textarea"
             rows={4}
             placeholder="Opis przygotowania"
-            {...register("recipeDescription")}
+            {...register("recipeDescription", {
+              maxLength: {
+                value: 500,
+                message: "Przepis może zawierać maksymalnie 500 znaków",
+              },
+              pattern: {
+                value: /^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź ]*$/g,
+                message: "Nazwa zawiera nieprawidłowe znaki",
+              },
+            })}
           />
         </div>
         <Button
