@@ -10,7 +10,7 @@ export const Popup = ({ popupTitle, popupCloseHandler, children }) => {
     const timeoutId = setTimeout(() => {
       setShowPopup(true);
       clearTimeout(timeoutId);
-    }, 100);
+    }, 10);
   }, []);
   return (
     <div className={classNames("popup", { "popup--show": showPopup })}>

@@ -24,7 +24,8 @@
     border-radius: 8px;
     padding: 20px;
     opacity: 0;
-    transform: translateY(-50%);
+    margin-top: -10%;
+    transform: translateY(-25%);
     transition: opacity 0.5s ease-out, transform 0.5s ease-out;
     &--show {
       opacity: 1;
