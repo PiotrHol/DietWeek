@@ -1,6 +1,7 @@
 const typeName = {
   setUserData: "diet/setUserData",
   clearUserData: "diet/clearUserData",
+  setRecipe: "diet/setRecipe",
 };
 
 const setUserData = (payload) => {
@@ -16,4 +17,11 @@ const clearUserData = () => {
   };
 };
 
-export { typeName, setUserData, clearUserData };
+const setRecipe = (recipeId, editFormData, ingredientsArray) => {
+  return {
+    type: typeName.setRecipe,
+    payload: { recipeId, ...editFormData, ingredientsArray },
+  };
+};
+
+export { typeName, setUserData, clearUserData, setRecipe };

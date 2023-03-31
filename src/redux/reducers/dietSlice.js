@@ -34,6 +34,34 @@ const dietReducer = (state = initialState, { type, payload }) => {
         ...state,
         recipes: [],
       };
+    case typeName.setRecipe:
+      const isRecipeExists = state.recipes.some(
+        (recipe) => recipe.id === payload.recipeId
+      );
+      const recipeData = {
+        id: payload.recipeId,
+        name: payload.recipeName,
+        calories: payload.recipeCalories,
+        ingredients: payload.ingredientsArray,
+        description: payload.recipeDescription,
+      };
+      if (isRecipeExists) {
+        return {
+          ...state,
+          recipes: state.recipes.map((recipe) => {
+            if (recipe.id === payload.recipeId) {
+              return recipeData;
+            } else {
+              return recipe;
+            }
+          }),
+        };
+      } else {
+        return {
+          ...state,
+          recipes: [...state.recipes, recipeData],
+        };
+      }
     default:
       return state;
   }
