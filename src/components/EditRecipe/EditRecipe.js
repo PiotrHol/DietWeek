@@ -6,6 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "../Button/Button";
 import classNames from "classnames";
+import { useDispatch } from "react-redux";
+import { setRecipe } from "../../redux/actions/dietActions";
+import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
+import { app } from "../../firebase";
+import { useSelector } from "react-redux";
 
 export const EditRecipe = ({
   recipeId = null,
@@ -13,6 +18,7 @@ export const EditRecipe = ({
   recipeDescription = null,
   recipeCalories = null,
   recipeIngredients = [],
+  closeHandler,
 }) => {
   const [ingredients, setIngredients] = useState(recipeIngredients);
   const [newIngredientName, setNewIngredientName] = useState("");
@@ -27,6 +33,8 @@ export const EditRecipe = ({
     setValue,
     handleSubmit,
   } = useForm();
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.userId);
 
   useEffect(() => {
     if (recipeName) {
@@ -83,8 +91,32 @@ export const EditRecipe = ({
     }
   };
 
-  const saveRecipe = (data) => {
-    console.log(data);
+  const saveRecipe = async (editFormdata) => {
+    let idOfRecipe = recipeId ? recipeId.toString() : Date.now().toString();
+    let recipeDataToSet = {
+      id: idOfRecipe,
+      name: editFormdata.recipeName,
+      calories: editFormdata.recipeCalories,
+      ingredients: ingredients,
+      description: editFormdata.recipeDescription,
+    };
+    if (recipeId) {
+      try {
+        await updateDoc(
+          doc(getFirestore(app), "users", userId, "recipes", idOfRecipe),
+          recipeDataToSet
+        );
+      } catch (error) {}
+    } else {
+      try {
+        await setDoc(
+          doc(getFirestore(app), "users", userId, "recipes", idOfRecipe),
+          recipeDataToSet
+        );
+      } catch (error) {}
+    }
+    dispatch(setRecipe(idOfRecipe, editFormdata, ingredients));
+    closeHandler();
   };
 
   return (
@@ -210,7 +242,7 @@ export const EditRecipe = ({
                 message: "Przepis może zawierać maksymalnie 500 znaków",
               },
               pattern: {
-                value: /^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź ]*$/g,
+                value: /^[^<>]*$/g,
                 message: "Nazwa zawiera nieprawidłowe znaki",
               },
             })}
