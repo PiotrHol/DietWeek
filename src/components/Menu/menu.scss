@@ -9,6 +9,7 @@
   display: flex;
   align-items: center;
   border-top: 3px solid $mainColor;
+  background-color: $bgColor;
   color: $secondaryTextColor;
   &__link {
     display: block;
@@ -50,6 +51,7 @@
     right: 2px;
     display: flex;
     flex-direction: column-reverse;
+    background-color: $bgColor;
     box-shadow: 0.5px 0.5px 8px $shadowColor;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
