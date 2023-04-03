@@ -63,16 +63,31 @@
     }
     &-select {
       width: 20%;
-      background: $bgColor;
+    }
+  }
+  &__select {
+    background: $bgColor;
+    font-family: $base-font;
+    font-size: 15px;
+    font-weight: 300;
+    padding: 4px 8px;
+    border: 1px solid $textColor;
+    border-radius: 5px;
+    &:focus {
+      border-color: $mainColor;
+      box-shadow: 0 0 4px $shadowColor;
+    }
+    &-option {
+      font-family: $base-font;
       font-size: 15px;
       font-weight: 300;
       padding: 4px 8px;
-      border: 1px solid $textColor;
-      border-radius: 5px;
-      &:focus {
-        border-color: $mainColor;
-        box-shadow: 0 0 4px $shadowColor;
-      }
+    }
+  }
+  &__category {
+    margin-bottom: 10px;
+    &-select {
+      width: 100%;
     }
   }
   &__description {

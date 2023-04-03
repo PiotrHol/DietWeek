@@ -11,6 +11,7 @@ import { setRecipe } from "../../redux/actions/dietActions";
 import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
 import { app } from "../../firebase";
 import { useSelector } from "react-redux";
+import { recipeDefaultCategory } from "../../settings/recipesCategory";
 
 export const EditRecipe = ({
   recipeId = null,
@@ -18,6 +19,7 @@ export const EditRecipe = ({
   recipeDescription = null,
   recipeCalories = null,
   recipeIngredients = [],
+  recipeCategory = null,
   closeHandler,
 }) => {
   const [ingredients, setIngredients] = useState(recipeIngredients);
@@ -27,6 +29,7 @@ export const EditRecipe = ({
   const [newIngredientNameError, setNewIngredientNameError] = useState(false);
   const [newIngredientQuantityError, setNewIngredientQuantityError] =
     useState(false);
+  const [category, setCategory] = useState(recipeDefaultCategory[0]);
   const {
     register,
     formState: { errors },
@@ -46,6 +49,12 @@ export const EditRecipe = ({
     if (recipeDescription) {
       setValue("recipeDescription", recipeDescription);
     }
+    if (recipeIngredients) {
+      setIngredients(recipeIngredients);
+    }
+    if (recipeCategory) {
+      setCategory(recipeCategory);
+    }
     // eslint-disable-next-line
   }, []);
 
@@ -53,7 +62,7 @@ export const EditRecipe = ({
     if (
       newIngredientName &&
       newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź ]*$/g) &&
-      newIngredientName.length < 20 &&
+      newIngredientName.length < 30 &&
       newIngredientQuantity &&
       newIngredientQuantity < 10000 &&
       newIngredientUnit
@@ -74,7 +83,7 @@ export const EditRecipe = ({
       setNewIngredientUnit("g");
     } else {
       if (
-        newIngredientName.length >= 20 ||
+        newIngredientName.length >= 30 ||
         !newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź ]*$/g)
       ) {
         setNewIngredientName("");
@@ -96,6 +105,7 @@ export const EditRecipe = ({
     let recipeDataToSet = {
       id: idOfRecipe,
       name: editFormdata.recipeName,
+      category: category,
       calories: editFormdata.recipeCalories,
       ingredients: ingredients,
       description: editFormdata.recipeDescription,
@@ -115,7 +125,7 @@ export const EditRecipe = ({
         );
       } catch (error) {}
     }
-    dispatch(setRecipe(idOfRecipe, editFormdata, ingredients));
+    dispatch(setRecipe(idOfRecipe, editFormdata, category, ingredients));
     closeHandler();
   };
 
@@ -130,7 +140,7 @@ export const EditRecipe = ({
           inputOptions={register("recipeName", {
             required: "Musisz podać nazwę przepisu",
             maxLength: {
-              value: 20,
+              value: 30,
               message: "Nazwa może zawierać maksymalnie 20 znaków",
             },
             pattern: {
@@ -140,6 +150,24 @@ export const EditRecipe = ({
           })}
           formErrors={errors}
         />
+        <div className="edit-recipe__category">
+          <div className="edit-recipe__section-title">Kategoria</div>
+          <select
+            className="edit-recipe__select edit-recipe__category-select"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            {recipeDefaultCategory.map((singleCategory, index) => (
+              <option
+                key={index}
+                className="edit-recipe__select-option"
+                value={singleCategory}
+              >
+                {singleCategory}
+              </option>
+            ))}
+          </select>
+        </div>
         <FormInput
           inputName="recipeCalories"
           labelText="Kalorie (kcal)"
@@ -215,12 +243,16 @@ export const EditRecipe = ({
               onChange={(e) => setNewIngredientQuantity(e.target.value)}
             />
             <select
-              className="edit-recipe__add-ingredient-select"
+              className="edit-recipe__select edit-recipe__add-ingredient-select"
               value={newIngredientUnit}
               onChange={(e) => setNewIngredientUnit(e.target.value)}
             >
-              <option value="g">g</option>
-              <option value="szt">szt</option>
+              <option className="edit-recipe__select-option" value="g">
+                g
+              </option>
+              <option className="edit-recipe__select-option" value="szt">
+                szt
+              </option>
             </select>
           </div>
           <Button
