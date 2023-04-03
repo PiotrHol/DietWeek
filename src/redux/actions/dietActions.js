@@ -17,10 +17,15 @@ const clearUserData = () => {
   };
 };
 
-const setRecipe = (recipeId, editFormData, ingredientsArray) => {
+const setRecipe = (
+  recipeId,
+  editFormData,
+  recipeCategory,
+  ingredientsArray
+) => {
   return {
     type: typeName.setRecipe,
-    payload: { recipeId, ...editFormData, ingredientsArray },
+    payload: { recipeId, ...editFormData, recipeCategory, ingredientsArray },
   };
 };
 
