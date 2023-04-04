@@ -1,0 +1,25 @@
+@import "../../scss/main.scss";
+
+.fixed-button {
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  background-color: $bgColor;
+  color: $mainColor;
+  border: 2px solid $mainColor;
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin: 5px 0;
+  font-family: $base-font;
+  font-weight: 700;
+  outline: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  box-shadow: 0 0 6px -1px $shadowColor;
+  transition: background-color 0.3s ease-out, color 0.3s ease-out;
+  &:hover {
+    background-color: $mainColor;
+    color: $whiteColor;
+  }
+}
