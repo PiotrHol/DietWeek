@@ -63,6 +63,11 @@ const dietReducer = (state = initialState, { type, payload }) => {
           recipes: [...state.recipes, recipeData],
         };
       }
+    case typeName.deleteRecipe:
+      return {
+        ...state,
+        recipes: state.recipes.filter((recipe) => recipe.id !== payload),
+      };
     default:
       return state;
   }

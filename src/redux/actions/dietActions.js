@@ -2,6 +2,7 @@ const typeName = {
   setUserData: "diet/setUserData",
   clearUserData: "diet/clearUserData",
   setRecipe: "diet/setRecipe",
+  deleteRecipe: "diet/deleteRecipe",
 };
 
 const setUserData = (payload) => {
@@ -29,4 +30,11 @@ const setRecipe = (
   };
 };
 
-export { typeName, setUserData, clearUserData, setRecipe };
+const deleteRecipe = (recipeId) => {
+  return {
+    type: typeName.deleteRecipe,
+    payload: recipeId,
+  };
+};
+
+export { typeName, setUserData, clearUserData, setRecipe, deleteRecipe };
