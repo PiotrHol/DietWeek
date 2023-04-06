@@ -5,6 +5,7 @@ import { Button } from "../Button/Button";
 import { Popup } from "../Popup/Popup";
 import { EditRecipe } from "../EditRecipe/EditRecipe";
 import { FixedButton } from "../FixedButton/FixedButton";
+import { RecipeDetails } from "../RecipeDetails/RecipeDetails";
 
 export const Recipes = () => {
   let recipes = useSelector((state) => state.diet.recipes);
@@ -23,6 +24,31 @@ export const Recipes = () => {
     setShowPopup(true);
   };
 
+  const handleShowRecipe = ({
+    id,
+    name,
+    category,
+    calories,
+    ingredients,
+    description,
+  }) => {
+    setPopupTitle(category);
+    setPopupContent(
+      <RecipeDetails
+        recipeId={id}
+        recipeName={name}
+        recipeCalories={calories}
+        recipeCategory={category}
+        recipeIngredients={ingredients}
+        recipeDescription={description}
+        changePopupTitle={(value) => setPopupTitle(value)}
+        showEditRecipe={(value) => setPopupContent(value)}
+        closeHandler={() => setShowPopup(false)}
+      />
+    );
+    setShowPopup(true);
+  };
+
   return (
     <div className="recipes">
       {recipes.length > 0 ? (
@@ -36,7 +62,11 @@ export const Recipes = () => {
               <div className="recipes__recipe-description">Opis</div>
             </div>
             {recipesToShow.map((recipe) => (
-              <div key={recipe.id} className="recipes__recipe">
+              <div
+                key={recipe.id}
+                className="recipes__recipe"
+                onClick={() => handleShowRecipe(recipe)}
+              >
                 <div className="recipes__recipe-name">{recipe.name}</div>
                 <div className="recipes__recipe-category">
                   {recipe.category}
