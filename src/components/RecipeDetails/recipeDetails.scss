@@ -1,0 +1,55 @@
+@import "../../scss/main.scss";
+
+.recipe-details {
+  width: 100%;
+  &__name-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 5px 10px 0;
+  }
+  &__title {
+    color: $tertiaryColor;
+    font-size: 16px;
+  }
+  &__name {
+    font-weight: 800;
+    margin-bottom: 5px;
+  }
+  &__section {
+    padding: 10px 10px 0;
+    &-title {
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: $mainColor;
+    }
+  }
+  &__btn-section {
+    display: flex;
+    align-items: flex-start;
+    button {
+      margin-left: 10px;
+    }
+  }
+  &__ingredients {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  &__ingredient {
+    width: fit-content;
+    font-size: 15px;
+    font-weight: 300;
+    padding: 6px;
+    border: 1px solid $secondaryColor;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+  }
+  &__description {
+    padding-bottom: 10px;
+    &--ingredients {
+      padding-top: 0;
+    }
+  }
+}
