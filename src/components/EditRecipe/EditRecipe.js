@@ -61,7 +61,7 @@ export const EditRecipe = ({
   const newIngredientBtnHandler = () => {
     if (
       newIngredientName &&
-      newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź ]*$/g) &&
+      newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź0-9% ]*$/g) &&
       newIngredientName.length < 30 &&
       newIngredientQuantity &&
       newIngredientQuantity < 10000 &&
@@ -84,7 +84,7 @@ export const EditRecipe = ({
     } else {
       if (
         newIngredientName.length >= 30 ||
-        !newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź ]*$/g)
+        !newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź0-9% ]*$/g)
       ) {
         setNewIngredientName("");
         setNewIngredientNameError(true);
@@ -140,8 +140,8 @@ export const EditRecipe = ({
           inputOptions={register("recipeName", {
             required: "Musisz podać nazwę przepisu",
             maxLength: {
-              value: 30,
-              message: "Nazwa może zawierać maksymalnie 20 znaków",
+              value: 50,
+              message: "Nazwa może zawierać maksymalnie 50 znaków",
             },
             pattern: {
               value: /^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź ]*$/g,
