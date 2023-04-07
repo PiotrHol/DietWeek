@@ -13,6 +13,29 @@
       margin-bottom: 10px;
     }
   }
+  &__filters {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    border-bottom: 1px solid $tertiaryColor;
+  }
+  &__filter {
+    width: fit-content;
+    margin: 0 5px 10px;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 6px 10px;
+    border: 1px solid $tertiaryColor;
+    border-radius: 25px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    &--active {
+      border: 2px solid $mainColor;
+      color: $mainColor;
+    }
+  }
   &__list {
     width: 100%;
     &-titles {

@@ -6,6 +6,8 @@ import { Popup } from "../Popup/Popup";
 import { EditRecipe } from "../EditRecipe/EditRecipe";
 import { FixedButton } from "../FixedButton/FixedButton";
 import { RecipeDetails } from "../RecipeDetails/RecipeDetails";
+import { recipeDefaultCategory } from "../../settings/recipesCategory";
+import classNames from "classnames";
 
 export const Recipes = () => {
   let recipes = useSelector((state) => state.diet.recipes);
@@ -13,9 +15,11 @@ export const Recipes = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupTitle, setPopupTitle] = useState("");
   const [popupContent, setPopupContent] = useState(null);
+  const [activeFilter, setActiveFilter] = useState("all");
 
   useEffect(() => {
     setRecipesToShow(recipes);
+    setActiveFilter("all");
   }, [recipes]);
 
   const handleAddRecipeBtn = () => {
@@ -49,9 +53,45 @@ export const Recipes = () => {
     setShowPopup(true);
   };
 
+  const handleSetFilter = (e) => {
+    const filterCategory = e.target.dataset.category;
+    if (recipeDefaultCategory.some((category) => category === filterCategory)) {
+      setActiveFilter(filterCategory);
+      setRecipesToShow(
+        recipes.filter((recipe) => recipe.category === filterCategory)
+      );
+    } else {
+      setActiveFilter("all");
+      setRecipesToShow(recipes);
+    }
+  };
+
   return (
     <div className="recipes">
-      {recipes.length > 0 ? (
+      <div className="recipes__filters">
+        <div
+          className={classNames("recipes__filter", {
+            "recipes__filter--active": activeFilter === "all",
+          })}
+          data-category="all"
+          onClick={handleSetFilter}
+        >
+          Wszystko
+        </div>
+        {recipeDefaultCategory.map((category, index) => (
+          <div
+            key={index}
+            className={classNames("recipes__filter", {
+              "recipes__filter--active": activeFilter === category,
+            })}
+            data-category={category}
+            onClick={handleSetFilter}
+          >
+            {category}
+          </div>
+        ))}
+      </div>
+      {recipesToShow.length > 0 ? (
         <>
           <div className="recipes__list">
             <div className="recipes__list-titles">
