@@ -23,9 +23,11 @@ export const Recipes = () => {
   }, [recipes]);
 
   const handleAddRecipeBtn = () => {
-    setPopupTitle("Dodaj przepis");
-    setPopupContent(<EditRecipe closeHandler={() => setShowPopup(false)} />);
-    setShowPopup(true);
+    if (recipes.length <= 200) {
+      setPopupTitle("Dodaj przepis");
+      setPopupContent(<EditRecipe closeHandler={() => setShowPopup(false)} />);
+      setShowPopup(true);
+    }
   };
 
   const handleShowRecipe = ({
