@@ -1,7 +1,51 @@
-export const recipeDefaultCategory = [
+const recipeDefaultCategory = [
   "Śniadanie",
   "Drugie śniadanie",
   "Przekąska",
   "Obiad",
   "Kolacja",
 ];
+
+const defaultDietDish = [
+  "Śniadanie",
+  "Drugie śniadanie",
+  "Przekąska",
+  "Obiad",
+  "Kolacja",
+];
+
+const defaultDietDay = [
+  "breakfast",
+  "secondBreakfast",
+  "snack",
+  "dinner",
+  "supper",
+];
+
+const defaultDietWeek = [
+  "monday",
+  "tuesday",
+  "wednesday",
+  "thursday",
+  "friday",
+  "saturday",
+  "sunday",
+];
+
+const defaultDietWeekTitles = [
+  "Poniedziałek",
+  "Wtorek",
+  "Środa",
+  "Czwartek",
+  "Piątek",
+  "Sobota",
+  "Niedziela",
+];
+
+export {
+  recipeDefaultCategory,
+  defaultDietDay,
+  defaultDietWeek,
+  defaultDietDish,
+  defaultDietWeekTitles,
+};
