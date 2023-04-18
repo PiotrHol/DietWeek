@@ -42,7 +42,7 @@ const dietReducer = (state = initialState, { type, payload }) => {
         id: payload.recipeId,
         name: payload.recipeName,
         category: payload.recipeCategory,
-        calories: payload.recipeCalories,
+        calories: Number(payload.recipeCalories),
         ingredients: payload.ingredientsArray,
         description: payload.recipeDescription,
       };

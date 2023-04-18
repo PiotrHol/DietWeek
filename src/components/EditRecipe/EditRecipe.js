@@ -106,7 +106,7 @@ export const EditRecipe = ({
       id: idOfRecipe,
       name: editFormdata.recipeName,
       category: category,
-      calories: editFormdata.recipeCalories,
+      calories: Number(editFormdata.recipeCalories),
       ingredients: ingredients,
       description: editFormdata.recipeDescription,
     };
