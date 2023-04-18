@@ -39,14 +39,21 @@ export const RecipesGallery = ({
         })}
       >
         {recipes.length > 0 ? (
-          recipes.map((recipe) => (
-            <div key={recipe.id} className="recipes-gallery__recipe">
-              <div className="recipes-gallery__recipe-name">{recipe.name}</div>
-              <div className="recipes-gallery__recipe-calories">
-                {recipe.calories} kcal
-              </div>
+          <>
+            <div className="recipes-gallery__title">
+              {recipesDayAndCategory[1]}
             </div>
-          ))
+            {recipes.map((recipe) => (
+              <div key={recipe.id} className="recipes-gallery__recipe">
+                <div className="recipes-gallery__recipe-name">
+                  {recipe.name}
+                </div>
+                <div className="recipes-gallery__recipe-calories">
+                  {recipe.calories} kcal
+                </div>
+              </div>
+            ))}
+          </>
         ) : (
           <div className="recipes-gallery__empty">
             Brak przepisów z kategorii "{recipesDayAndCategory[1]}"

@@ -15,7 +15,8 @@
     width: 50%;
     height: 100%;
     background: $bgColor;
-    padding: 20px;
+    padding: 15px;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 5px -1px $mainColor;
@@ -35,5 +36,36 @@
     font-size: 16px;
     line-height: 1.2;
     color: $textColor;
+  }
+  &__title {
+    margin-bottom: 10px;
+    color: $mainColor;
+    font-weight: 600;
+    &::first-letter {
+      text-transform: capitalize;
+    }
+  }
+  &__recipe {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid $borderColor;
+    border-radius: 5px;
+    background-color: rgba(250, 245, 246, 0.4);
+    box-shadow: 0 0 5px -1px $shadowColor;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: box-shadow 0.4s ease-out, border 0.4s ease-out;
+    cursor: pointer;
+    &:hover {
+      border: 1px solid $mainColor;
+      box-shadow: 0 0 5px rgba(53, 83, 149, 0.5);
+    }
+    &-name {
+      margin-bottom: 8px;
+    }
+    &-calories {
+      color: $secondaryTextColor;
+      font-size: 14px;
+    }
   }
 }
