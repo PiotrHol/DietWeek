@@ -1,0 +1,74 @@
+@import "../../scss/main.scss";
+
+.week {
+  width: 100%;
+  &__title {
+    padding-left: 8px;
+    font-weight: 600;
+    color: $mainColor;
+    &-input {
+      width: calc(100% - 16px);
+      font-size: 15px;
+      font-weight: 300;
+      margin: 10px 8px;
+      padding: 8px;
+      border: 1px solid $textColor;
+      border-radius: 5px;
+      &:focus {
+        border-color: $mainColor;
+        box-shadow: 0 0 4px $shadowColor;
+      }
+      &--error {
+        border-color: $errorColor;
+      }
+    }
+  }
+  &__calories {
+    padding: 8px 0 8px 8px;
+  }
+  &__days {
+    width: 82%;
+    margin: 12px auto;
+  }
+  &__day {
+    width: 100%;
+    &-title {
+      text-align: center;
+      color: $tertiaryColor;
+      padding-left: 0;
+    }
+  }
+  &__dish {
+    width: 95%;
+    padding: 10px;
+    margin: 7px auto;
+    border: 1px solid $borderColor;
+    border-radius: 5px;
+    background-color: rgba(250, 245, 246, 0.4);
+    box-shadow: 0 0 5px -1px $shadowColor;
+    transition: box-shadow 0.4s ease-out;
+    cursor: pointer;
+    &:hover {
+      box-shadow: 0 0 5px rgba(53, 83, 149, 0.5);
+      .week__dish-title {
+        color: $mainColor;
+      }
+    }
+    &-category {
+      color: $secondaryTextColor;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+    &-title {
+      color: $textColor;
+      &--recipe {
+        color: $mainColor;
+      }
+    }
+  }
+}
+
+.slick-arrow::before {
+  color: $mainColor !important;
+  opacity: 1 !important;
+}
