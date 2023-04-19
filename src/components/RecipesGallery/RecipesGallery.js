@@ -2,18 +2,28 @@ import React, { useState, useEffect } from "react";
 import "./recipesGallery.scss";
 import { useSelector } from "react-redux";
 import classNames from "classnames";
+import { useDispatch } from "react-redux";
+import {
+  setSingleRecipe,
+  recalculateCalories,
+} from "../../redux/actions/editedWeekActions";
+import {
+  defaultDietDay,
+  defaultDietDish,
+} from "../../settings/recipesCategory";
 
-export const RecipesGallery = ({
-  recipesDayAndCategory,
-  setDayDish,
-  closeGallery,
-}) => {
+export const RecipesGallery = ({ recipesDayAndCategory, closeGallery }) => {
   const [showGalleryContent, setShowGalleryContent] = useState(false);
   const recipes = useSelector((state) =>
     state.diet.recipes.filter(
-      (recipe) => recipe.category.toLowerCase() === recipesDayAndCategory[1]
+      (recipe) =>
+        recipe.category.toLowerCase() ===
+        defaultDietDish[
+          defaultDietDay.indexOf(recipesDayAndCategory[1])
+        ].toLowerCase()
     )
   );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -30,6 +40,13 @@ export const RecipesGallery = ({
     }, 400);
   };
 
+  const handleRecipeToSetClick = (e, id, name, calories) => {
+    e.stopPropagation();
+    dispatch(setSingleRecipe(recipesDayAndCategory, id, name, calories));
+    dispatch(recalculateCalories());
+    closeGallery();
+  };
+
   return (
     <div className="recipes-gallery" onClick={closeGalleryHandler}>
       <div
@@ -41,10 +58,25 @@ export const RecipesGallery = ({
         {recipes.length > 0 ? (
           <>
             <div className="recipes-gallery__title">
-              {recipesDayAndCategory[1]}
+              {
+                defaultDietDish[
+                  defaultDietDay.indexOf(recipesDayAndCategory[1])
+                ]
+              }
             </div>
             {recipes.map((recipe) => (
-              <div key={recipe.id} className="recipes-gallery__recipe">
+              <div
+                key={recipe.id}
+                className="recipes-gallery__recipe"
+                onClick={(e) =>
+                  handleRecipeToSetClick(
+                    e,
+                    recipe.id,
+                    recipe.name,
+                    recipe.calories
+                  )
+                }
+              >
                 <div className="recipes-gallery__recipe-name">
                   {recipe.name}
                 </div>
@@ -56,7 +88,8 @@ export const RecipesGallery = ({
           </>
         ) : (
           <div className="recipes-gallery__empty">
-            Brak przepisów z kategorii "{recipesDayAndCategory[1]}"
+            Brak przepisów z kategorii "
+            {defaultDietDish[defaultDietDay.indexOf(recipesDayAndCategory[1])]}"
           </div>
         )}
       </div>
