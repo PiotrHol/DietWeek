@@ -43,7 +43,7 @@ export const RecipesGallery = ({ recipesDayAndCategory, closeGallery }) => {
   const handleRecipeToSetClick = (e, id, name, calories) => {
     e.stopPropagation();
     dispatch(setSingleRecipe(recipesDayAndCategory, id, name, calories));
-    dispatch(recalculateCalories());
+    dispatch(recalculateCalories(recipesDayAndCategory[0]));
     closeGallery();
   };
 
