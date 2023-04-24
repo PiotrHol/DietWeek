@@ -3,6 +3,7 @@ const typeName = {
   setSingleRecipe: "editedWeek/setSingleRecipe",
   clearWeek: "editedWeek/clearWeek",
   recalculateCalories: "editedWeek/recalculateCalories",
+  recalculateDayCalories: "editedWeek/recalculateDayCalories",
 };
 
 const setAllDays = (allWeek) => {
@@ -24,6 +25,13 @@ const recalculateCalories = () => {
   };
 };
 
+const recalculateDayCalories = (day) => {
+  return {
+    type: typeName.recalculateDayCalories,
+    payload: day,
+  };
+};
+
 const setSingleRecipe = (dayAndDish, recipeId, recipeName, recipeCalories) => {
   return {
     type: typeName.setSingleRecipe,
@@ -42,5 +50,6 @@ export {
   setAllDays,
   clearWeek,
   recalculateCalories,
+  recalculateDayCalories,
   setSingleRecipe,
 };
