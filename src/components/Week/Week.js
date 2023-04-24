@@ -114,10 +114,6 @@ export const Week = ({
               <div className="week__title">{weekName}</div>
             </div>
           )}
-          <div className="week__header-column">
-            <div className="week__title">Kalorie</div>
-            <div className="week__calories">{weekCalories} kcal</div>
-          </div>
         </div>
       )}
       {isPopup && <div className="week__title">Tydzień</div>}
@@ -125,8 +121,13 @@ export const Week = ({
         <Slider {...slickSettings}>
           {defaultDietWeek.map((dietDay, dietDayIndex) => (
             <div key={`${dietDay}-${dietDayIndex}`} className="week__day">
-              <div className="week__title week__day-title">
-                {defaultDietWeekTitles[dietDayIndex]}
+              <div className="week__day-head">
+                <div className="week__title week__day-title">
+                  {defaultDietWeekTitles[dietDayIndex]}
+                </div>
+                <div className="week__day-calories">
+                  {weekCalories[defaultDietWeek[dietDayIndex]]} kcal
+                </div>
               </div>
               {defaultDietDay.map((dietDish, dietDishIndex) => (
                 <div
