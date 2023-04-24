@@ -4,9 +4,19 @@ import {
   defaultDietDay,
 } from "../../settings/recipesCategory";
 
+const weekCaloriesInitialValues = {
+  [defaultDietWeek[0]]: 0,
+  [defaultDietWeek[1]]: 0,
+  [defaultDietWeek[2]]: 0,
+  [defaultDietWeek[3]]: 0,
+  [defaultDietWeek[4]]: 0,
+  [defaultDietWeek[5]]: 0,
+  [defaultDietWeek[6]]: 0,
+};
+
 const initialState = {
   weekDays: {},
-  weekCalories: 0,
+  weekCalories: { ...weekCaloriesInitialValues },
 };
 
 const editedWeekReducer = (state = initialState, { type, payload }) => {
@@ -20,20 +30,40 @@ const editedWeekReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         weekDays: {},
-        weekCalories: 0,
+        weekCalories: { ...weekCaloriesInitialValues },
       };
     case typeName.recalculateCalories:
       let summaryCalories = 0;
+      let summaryCaloriesWeek = {};
       for (const dietDay of defaultDietWeek) {
         for (const dietDayDish of defaultDietDay) {
           if (state.weekDays[dietDay][dietDayDish][2]) {
             summaryCalories += state.weekDays[dietDay][dietDayDish][2];
           }
         }
+        summaryCaloriesWeek = {
+          ...summaryCaloriesWeek,
+          [dietDay]: summaryCalories,
+        };
+        summaryCalories = 0;
       }
       return {
         ...state,
-        weekCalories: summaryCalories,
+        weekCalories: { ...summaryCaloriesWeek },
+      };
+    case typeName.recalculateDayCalories:
+      let summaryDayCalories = 0;
+      for (const dietDayDish of defaultDietDay) {
+        if (state.weekDays[payload][dietDayDish][2]) {
+          summaryDayCalories += state.weekDays[payload][dietDayDish][2];
+        }
+      }
+      return {
+        ...state,
+        weekCalories: {
+          ...state.weekCalories,
+          [payload]: summaryDayCalories,
+        },
       };
     case typeName.setSingleRecipe:
       let tempWeekDays = {
