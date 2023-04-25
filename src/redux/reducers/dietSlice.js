@@ -68,6 +68,25 @@ const dietReducer = (state = initialState, { type, payload }) => {
         ...state,
         recipes: state.recipes.filter((recipe) => recipe.id !== payload),
       };
+    case typeName.setWeek:
+      const isWeekExists = state.weeks.some((week) => week.id === payload.id);
+      if (isWeekExists) {
+        return {
+          ...state,
+          weeks: state.weeks.map((week) => {
+            if (week.id === payload.id) {
+              return payload;
+            } else {
+              return week;
+            }
+          }),
+        };
+      } else {
+        return {
+          ...state,
+          weeks: [...state.weeks, payload],
+        };
+      }
     default:
       return state;
   }
