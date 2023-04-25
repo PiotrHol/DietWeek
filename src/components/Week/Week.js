@@ -17,6 +17,8 @@ import {
   clearWeek,
   recalculateCalories,
 } from "../../redux/actions/editedWeekActions";
+import { setWeek } from "../../redux/actions/dietActions";
+import classNames from "classnames";
 
 export const Week = ({
   isEdit,
@@ -25,8 +27,11 @@ export const Week = ({
   weekDays,
   showGallerySetter,
   galleryDayAndCategorySetter,
+  closeWeekHandler,
 }) => {
   const [newWeekName, setNewWeekName] = useState("");
+  const [newWeekNameError, setNewWeekNameError] = useState(false);
+  const [newWeekNameErrorMessage, setNewWeekNameErrorMessage] = useState("");
   const dietDays = useSelector((state) => state.editedWeek.weekDays);
   const weekCalories = useSelector((state) => state.editedWeek.weekCalories);
   const dispatch = useDispatch();
@@ -94,6 +99,29 @@ export const Week = ({
     }
   };
 
+  const handleSaveClick = () => {
+    if (
+      newWeekName.length > 0 &&
+      newWeekName.length < 30 &&
+      newWeekName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź0-9% ]*$/g)
+    ) {
+      setNewWeekNameError(false);
+      setNewWeekNameErrorMessage("");
+      let summaryWeekCalories = 0;
+      for (const dietDay of defaultDietWeek) {
+        if (weekCalories[dietDay]) {
+          summaryWeekCalories += weekCalories[dietDay];
+        }
+      }
+      const weekId = weekDays ? weekDays.id : Date.now().toString();
+      dispatch(setWeek(weekId, newWeekName, summaryWeekCalories, dietDays));
+      closeWeekHandler();
+    } else {
+      setNewWeekNameError(true);
+      setNewWeekNameErrorMessage("Niedozwolona nazwa tygodnia");
+    }
+  };
+
   return (
     <div className="week">
       {isPopup && (
@@ -102,12 +130,19 @@ export const Week = ({
             <div className="week__header-column">
               <div className="week__title">Nazwa</div>
               <input
-                className="week__title-input"
+                className={classNames("week__title-input", {
+                  "week__title-input--error": newWeekNameError,
+                })}
                 type="text"
                 placeholder="Nazwa nowego tygodnia"
                 value={newWeekName}
                 onChange={(e) => setNewWeekName(e.target.value)}
               />
+              {newWeekNameErrorMessage && (
+                <div className="week__title-error-message">
+                  {newWeekNameErrorMessage}
+                </div>
+              )}
             </div>
           ) : (
             <div className="week__header-column">
@@ -162,6 +197,7 @@ export const Week = ({
           buttonText="Zapisz"
           buttonTextSize={15}
           buttonFitWidth={false}
+          buttonHandleClick={handleSaveClick}
         />
       )}
     </div>
