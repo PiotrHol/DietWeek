@@ -3,6 +3,7 @@ const typeName = {
   clearUserData: "diet/clearUserData",
   setRecipe: "diet/setRecipe",
   deleteRecipe: "diet/deleteRecipe",
+  setWeek: "diet/setWeek",
 };
 
 const setUserData = (payload) => {
@@ -37,4 +38,23 @@ const deleteRecipe = (recipeId) => {
   };
 };
 
-export { typeName, setUserData, clearUserData, setRecipe, deleteRecipe };
+const setWeek = (weekId, weekName, weekCalories, weekData) => {
+  return {
+    type: typeName.setWeek,
+    payload: {
+      id: weekId,
+      name: weekName,
+      calories: weekCalories,
+      week: weekData,
+    },
+  };
+};
+
+export {
+  typeName,
+  setUserData,
+  clearUserData,
+  setRecipe,
+  deleteRecipe,
+  setWeek,
+};
