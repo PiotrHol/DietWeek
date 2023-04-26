@@ -5,6 +5,7 @@ import { Button } from "../Button/Button";
 import { Popup } from "../Popup/Popup";
 import { Week } from "../Week/Week";
 import { RecipesGallery } from "../RecipesGallery/RecipesGallery";
+import { FixedButton } from "../FixedButton/FixedButton";
 
 export const Weeks = () => {
   let weeks = useSelector((state) => state.diet.weeks);
@@ -28,10 +29,31 @@ export const Weeks = () => {
     setShowPopup(true);
   };
 
+  const handleShowWeek = () => {};
+
   return (
     <div className="weeks">
       {weeks.length > 0 ? (
-        <div className="weeks__list"></div>
+        <>
+          <div className="weeks__list">
+            {weeks.map((week) => (
+              <div
+                key={week.id}
+                className="weeks__week"
+                data-name={week.name}
+                onClick={handleShowWeek}
+              >
+                <div className="weeks__week-name">{week.name}</div>
+                <div className="weeks__week-calories">{week.calories} kcal</div>
+              </div>
+            ))}
+          </div>
+          <FixedButton
+            buttonText="Dodaj"
+            buttonTextSize={15}
+            buttonHandleClick={handleAddWeek}
+          />
+        </>
       ) : (
         <div className="weeks__empty">
           <div className="weeks__empty-text">

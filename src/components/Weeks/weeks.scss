@@ -13,4 +13,64 @@
       margin-bottom: 10px;
     }
   }
+  &__list {
+    width: 100%;
+    padding: 10px 0px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  &__week {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    margin: 8px;
+    cursor: pointer;
+    background-color: rgba(250, 245, 246, 0.4);
+    border-radius: 2px;
+    font-size: 15px;
+    box-shadow: 0 0 5px -1px $shadowColor;
+    transition: box-shadow 0.4s ease-out, color 0.4s ease-out;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    @include mediaMobile {
+      width: 140px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      height: 75px;
+    }
+    &:hover {
+      box-shadow: 0 0 5px rgba(53, 83, 149, 0.5);
+      color: $mainColor;
+    }
+    &--active {
+      box-shadow: 0 0 5px 0px $secondaryColor;
+      .weeks__week-name {
+        color: $secondaryColor;
+      }
+    }
+    &-name {
+      margin-right: 5px;
+      word-break: break-word;
+      font-size: 16px;
+      font-weight: 700;
+      @include mediaMobile {
+        margin-bottom: 8px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+      }
+    }
+    &-calories {
+      text-align: right;
+      @include mediaMobile {
+        text-align: left;
+      }
+    }
+  }
 }
