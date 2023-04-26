@@ -1,3 +1,9 @@
+@mixin mediaMobile {
+  @media screen and (min-width: 361px) {
+    @content;
+  }
+}
+
 @mixin mediaTablet {
   @media screen and (min-width: 481px) {
     @content;
