@@ -59,9 +59,7 @@ export const Week = ({
     } else {
       dispatch(setAllDays(weekDays));
     }
-    if (isEdit && weekDays) {
-      dispatch(recalculateCalories());
-    }
+    dispatch(recalculateCalories());
     return () => dispatch(clearWeek());
     // eslint-disable-next-line
   }, []);
@@ -126,7 +124,7 @@ export const Week = ({
     <div className="week">
       {isPopup && (
         <div className="week__header">
-          {isEdit ? (
+          {isEdit && (
             <div className="week__header-column">
               <div className="week__title">Nazwa</div>
               <input
@@ -144,14 +142,10 @@ export const Week = ({
                 </div>
               )}
             </div>
-          ) : (
-            <div className="week__header-column">
-              <div className="week__title">{weekName}</div>
-            </div>
           )}
         </div>
       )}
-      {isPopup && <div className="week__title">Tydzień</div>}
+      <div className="week__title">{isPopup ? "Tydzień" : weekName}</div>
       <div className="week__days">
         <Slider {...slickSettings}>
           {defaultDietWeek.map((dietDay, dietDayIndex) => (
