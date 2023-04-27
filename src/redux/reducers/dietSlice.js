@@ -87,6 +87,11 @@ const dietReducer = (state = initialState, { type, payload }) => {
           weeks: [...state.weeks, payload],
         };
       }
+    case typeName.deleteWeek:
+      return {
+        ...state,
+        weeks: state.weeks.filter((week) => week.id !== payload),
+      };
     default:
       return state;
   }
