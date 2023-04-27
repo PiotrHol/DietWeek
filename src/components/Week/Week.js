@@ -29,7 +29,7 @@ export const Week = ({
   galleryDayAndCategorySetter,
   closeWeekHandler,
 }) => {
-  const [newWeekName, setNewWeekName] = useState("");
+  const [newWeekName, setNewWeekName] = useState(weekName ? weekName : "");
   const [newWeekNameError, setNewWeekNameError] = useState(false);
   const [newWeekNameErrorMessage, setNewWeekNameErrorMessage] = useState("");
   const dietDays = useSelector((state) => state.editedWeek.weekDays);
@@ -57,7 +57,7 @@ export const Week = ({
         })
       );
     } else {
-      dispatch(setAllDays(weekDays));
+      dispatch(setAllDays(weekDays.week));
     }
     dispatch(recalculateCalories());
     return () => dispatch(clearWeek());
@@ -132,7 +132,7 @@ export const Week = ({
                   "week__title-input--error": newWeekNameError,
                 })}
                 type="text"
-                placeholder="Nazwa nowego tygodnia"
+                placeholder="Nazwa tygodnia"
                 value={newWeekName}
                 onChange={(e) => setNewWeekName(e.target.value)}
               />
