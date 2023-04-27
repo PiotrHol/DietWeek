@@ -73,4 +73,18 @@
       }
     }
   }
+  &__popup-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 8px;
+    button {
+      margin-left: 6px;
+      margin-right: 6px;
+      &:nth-child(3) {
+        color: $secondaryColor;
+        border-color: $secondaryColor;
+      }
+    }
+  }
 }

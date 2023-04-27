@@ -29,7 +29,35 @@ export const Weeks = () => {
     setShowPopup(true);
   };
 
-  const handleShowWeek = () => {};
+  const handleShowWeek = (weekName, week) => {
+    setPopupTitle(weekName);
+    setPopupContent(
+      <>
+        <div className="weeks__popup-buttons">
+          <Button
+            buttonStyle="secondary"
+            buttonText="Edytuj"
+            buttonTextSize={14}
+            buttonHandleClick={() => console.log("Edit")}
+          />
+          <Button
+            buttonStyle="secondary"
+            buttonText="Usuń"
+            buttonTextSize={14}
+            buttonHandleClick={() => console.log("Delete")}
+          />
+          <Button
+            buttonStyle="secondary"
+            buttonText="Aktywuj"
+            buttonTextSize={14}
+            buttonHandleClick={() => console.log("Active")}
+          />
+        </div>
+        <Week isEdit={false} isPopup={true} weekDays={week} />
+      </>
+    );
+    setShowPopup(true);
+  };
 
   return (
     <div className="weeks">
@@ -41,7 +69,7 @@ export const Weeks = () => {
                 key={week.id}
                 className="weeks__week"
                 data-name={week.name}
-                onClick={handleShowWeek}
+                onClick={() => handleShowWeek(week.name, week.week)}
               >
                 <div className="weeks__week-name">{week.name}</div>
                 <div className="weeks__week-calories">{week.calories} kcal</div>
