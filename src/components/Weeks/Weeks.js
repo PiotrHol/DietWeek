@@ -6,6 +6,8 @@ import { Popup } from "../Popup/Popup";
 import { Week } from "../Week/Week";
 import { RecipesGallery } from "../RecipesGallery/RecipesGallery";
 import { FixedButton } from "../FixedButton/FixedButton";
+import { useDispatch } from "react-redux";
+import { deleteWeek } from "../../redux/actions/dietActions";
 
 export const Weeks = () => {
   let weeks = useSelector((state) => state.diet.weeks);
@@ -14,6 +16,7 @@ export const Weeks = () => {
   const [popupContent, setPopupContent] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [galleryDayAndCategory, setGalleryDayAndCategory] = useState([]);
+  const dispatch = useDispatch();
 
   const handleAddWeek = () => {
     setPopupTitle("Nowy tydzień");
@@ -43,6 +46,13 @@ export const Weeks = () => {
     );
   };
 
+  const handleDeleteWeek = (weekId) => {
+    setShowPopup(false);
+    setPopupTitle("");
+    setPopupContent(null);
+    dispatch(deleteWeek(weekId));
+  };
+
   const handleShowWeek = (weekData) => {
     setPopupTitle(weekData.name);
     setPopupContent(
@@ -58,7 +68,7 @@ export const Weeks = () => {
             buttonStyle="secondary"
             buttonText="Usuń"
             buttonTextSize={14}
-            buttonHandleClick={() => console.log("Delete")}
+            buttonHandleClick={() => handleDeleteWeek(weekData.id)}
           />
           <Button
             buttonStyle="secondary"
