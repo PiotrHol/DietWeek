@@ -29,8 +29,22 @@ export const Weeks = () => {
     setShowPopup(true);
   };
 
-  const handleShowWeek = (weekName, week) => {
-    setPopupTitle(weekName);
+  const handleEditWeek = (weekData) => {
+    setPopupContent(
+      <Week
+        isEdit={true}
+        isPopup={true}
+        weekName={weekData.name}
+        weekDays={weekData}
+        showGallerySetter={(e) => setShowGallery(e)}
+        galleryDayAndCategorySetter={(e) => setGalleryDayAndCategory(e)}
+        closeWeekHandler={() => setShowPopup(false)}
+      />
+    );
+  };
+
+  const handleShowWeek = (weekData) => {
+    setPopupTitle(weekData.name);
     setPopupContent(
       <>
         <div className="weeks__popup-buttons">
@@ -38,7 +52,7 @@ export const Weeks = () => {
             buttonStyle="secondary"
             buttonText="Edytuj"
             buttonTextSize={14}
-            buttonHandleClick={() => console.log("Edit")}
+            buttonHandleClick={() => handleEditWeek(weekData)}
           />
           <Button
             buttonStyle="secondary"
@@ -53,7 +67,7 @@ export const Weeks = () => {
             buttonHandleClick={() => console.log("Active")}
           />
         </div>
-        <Week isEdit={false} isPopup={true} weekDays={week} />
+        <Week isEdit={false} isPopup={true} weekDays={weekData} />
       </>
     );
     setShowPopup(true);
@@ -69,7 +83,7 @@ export const Weeks = () => {
                 key={week.id}
                 className="weeks__week"
                 data-name={week.name}
-                onClick={() => handleShowWeek(week.name, week.week)}
+                onClick={() => handleShowWeek(week)}
               >
                 <div className="weeks__week-name">{week.name}</div>
                 <div className="weeks__week-calories">{week.calories} kcal</div>
