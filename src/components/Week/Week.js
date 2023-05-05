@@ -28,6 +28,7 @@ export const Week = ({
   showGallerySetter,
   galleryDayAndCategorySetter,
   closeWeekHandler,
+  handleShowRecipe,
 }) => {
   const [newWeekName, setNewWeekName] = useState(weekName ? weekName : "");
   const [newWeekNameError, setNewWeekNameError] = useState(false);
@@ -93,7 +94,8 @@ export const Week = ({
       galleryDayAndCategorySetter([day, category]);
       showGallerySetter(true);
     } else {
-      console.log("Show click");
+      const recipeToShowId = dietDays[day][category][0];
+      handleShowRecipe(recipeToShowId);
     }
   };
 
