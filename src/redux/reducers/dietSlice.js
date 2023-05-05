@@ -103,6 +103,11 @@ const dietReducer = (state = initialState, { type, payload }) => {
         ...state,
         weeks: state.weeks.filter((week) => week.id !== payload),
       };
+    case typeName.setActiveWeek:
+      return {
+        ...state,
+        activeWeek: payload,
+      };
     default:
       return state;
   }
