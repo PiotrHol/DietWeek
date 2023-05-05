@@ -7,10 +7,10 @@ const typeName = {
   deleteWeek: "diet/deleteWeek",
 };
 
-const setUserData = (payload) => {
+const setUserData = (recipes, weeks) => {
   return {
     type: typeName.setUserData,
-    payload,
+    payload: { recipes, weeks },
   };
 };
 
