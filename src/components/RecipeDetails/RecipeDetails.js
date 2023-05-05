@@ -19,6 +19,7 @@ export const RecipeDetails = ({
   changePopupTitle,
   showEditRecipe,
   closeHandler,
+  withOptions = true,
 }) => {
   const userId = useSelector((state) => state.auth.userId);
   const dispatch = useDispatch();
@@ -54,20 +55,22 @@ export const RecipeDetails = ({
           <div className="recipe-details__name">{recipeName}</div>
           <div>{recipeCalories} kcal</div>
         </div>
-        <div className="recipe-details__btn-section">
-          <Button
-            buttonStyle="secondary"
-            buttonText="Edytuj"
-            buttonTextSize={13}
-            buttonHandleClick={handleEditBtn}
-          />
-          <Button
-            buttonStyle="secondary"
-            buttonText="Usuń"
-            buttonTextSize={13}
-            buttonHandleClick={handleDeleteBtn}
-          />
-        </div>
+        {withOptions && (
+          <div className="recipe-details__btn-section">
+            <Button
+              buttonStyle="secondary"
+              buttonText="Edytuj"
+              buttonTextSize={13}
+              buttonHandleClick={handleEditBtn}
+            />
+            <Button
+              buttonStyle="secondary"
+              buttonText="Usuń"
+              buttonTextSize={13}
+              buttonHandleClick={handleDeleteBtn}
+            />
+          </div>
+        )}
       </div>
       <div className="recipe-details__section">
         <div className="recipe-details__section-title">Składniki</div>
