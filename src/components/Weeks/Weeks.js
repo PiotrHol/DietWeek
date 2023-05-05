@@ -8,6 +8,7 @@ import { RecipesGallery } from "../RecipesGallery/RecipesGallery";
 import { FixedButton } from "../FixedButton/FixedButton";
 import { useDispatch } from "react-redux";
 import { deleteWeek } from "../../redux/actions/dietActions";
+import { RecipeDetails } from "../RecipeDetails/RecipeDetails";
 
 export const Weeks = () => {
   let weeks = useSelector((state) => state.diet.weeks);
@@ -16,6 +17,9 @@ export const Weeks = () => {
   const [popupContent, setPopupContent] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [galleryDayAndCategory, setGalleryDayAndCategory] = useState([]);
+  const recipes = useSelector((state) => state.diet.recipes);
+  const [isRecipePopupContent, setIsRecipePopupContent] = useState(false);
+  const [recipePopupContent, setRecipePopupContent] = useState(null);
   const dispatch = useDispatch();
 
   const handleAddWeek = () => {
@@ -53,6 +57,37 @@ export const Weeks = () => {
     dispatch(deleteWeek(weekId));
   };
 
+  const handleShowRecipe = (recipeId) => {
+    if (recipeId) {
+      const recipeToShow = recipes.filter(
+        (recipe) => recipe.id === recipeId
+      )[0];
+      setRecipePopupContent(
+        <div className="weeks__recipe-popup">
+          <Button
+            buttonStyle="secondary"
+            buttonText="Powrót"
+            buttonTextSize={13}
+            buttonHandleClick={() => {
+              setIsRecipePopupContent(false);
+              setRecipePopupContent(null);
+            }}
+          />
+          <RecipeDetails
+            recipeId={recipeToShow.id}
+            recipeName={recipeToShow.name}
+            recipeCalories={recipeToShow.calories}
+            recipeCategory={recipeToShow.category}
+            recipeIngredients={recipeToShow.ingredients}
+            recipeDescription={recipeToShow.description}
+            withOptions={false}
+          />
+        </div>
+      );
+      setIsRecipePopupContent(true);
+    }
+  };
+
   const handleShowWeek = (weekData) => {
     setPopupTitle(weekData.name);
     setPopupContent(
@@ -61,23 +96,28 @@ export const Weeks = () => {
           <Button
             buttonStyle="secondary"
             buttonText="Edytuj"
-            buttonTextSize={14}
+            buttonTextSize={13}
             buttonHandleClick={() => handleEditWeek(weekData)}
           />
           <Button
             buttonStyle="secondary"
             buttonText="Usuń"
-            buttonTextSize={14}
+            buttonTextSize={13}
             buttonHandleClick={() => handleDeleteWeek(weekData.id)}
           />
           <Button
             buttonStyle="secondary"
             buttonText="Aktywuj"
-            buttonTextSize={14}
+            buttonTextSize={13}
             buttonHandleClick={() => console.log("Active")}
           />
         </div>
-        <Week isEdit={false} isPopup={true} weekDays={weekData} />
+        <Week
+          isEdit={false}
+          isPopup={true}
+          weekDays={weekData}
+          handleShowRecipe={handleShowRecipe}
+        />
       </>
     );
     setShowPopup(true);
@@ -122,9 +162,12 @@ export const Weeks = () => {
       {showPopup && (
         <Popup
           popupTitle={popupTitle}
-          popupCloseHandler={() => setShowPopup(false)}
+          popupCloseHandler={() => {
+            setShowPopup(false);
+            setIsRecipePopupContent(false);
+          }}
         >
-          {popupContent}
+          {!isRecipePopupContent ? popupContent : recipePopupContent}
         </Popup>
       )}
       {showGallery && (

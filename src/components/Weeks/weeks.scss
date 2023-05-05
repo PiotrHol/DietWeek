@@ -87,4 +87,10 @@
       }
     }
   }
+  &__recipe-popup {
+    .button:first-child {
+      margin-left: 8px;
+      margin-bottom: 8px;
+    }
+  }
 }
