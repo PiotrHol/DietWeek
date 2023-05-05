@@ -8,6 +8,7 @@ import { fetchUserData } from "../../redux/reducers/dietSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Recipes } from "../Recipes/Recipes";
+import { Weeks } from "../Weeks/Weeks";
 
 export const Home = () => {
   let { path, url } = useRouteMatch();
@@ -33,6 +34,7 @@ export const Home = () => {
         </PrivateRoute>
         <PrivateRoute path={`${path}/weeks`}>
           <HomeHeader title="Tygodnie" />
+          <Weeks />
         </PrivateRoute>
         <PrivateRoute path={`${path}/shopping-list`}>
           <HomeHeader title="Lista zakupów" />
