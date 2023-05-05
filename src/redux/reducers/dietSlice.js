@@ -19,7 +19,17 @@ const fetchUserData = async (dispatch, getState) => {
       id: recipe.id,
     });
   });
-  dispatch(setUserData(recipesArray));
+  const weeks = await getDocs(
+    collection(getFirestore(app), "users", getState().auth.userId, "weeks")
+  );
+  const weeksArray = [];
+  weeks.forEach((week) => {
+    weeksArray.push({
+      ...week.data(),
+      id: week.id,
+    });
+  });
+  dispatch(setUserData(recipesArray, weeksArray));
 };
 
 const dietReducer = (state = initialState, { type, payload }) => {
@@ -27,7 +37,8 @@ const dietReducer = (state = initialState, { type, payload }) => {
     case typeName.setUserData:
       return {
         ...state,
-        recipes: payload.sort((a, b) => a.id - b.id),
+        recipes: payload.recipes.sort((a, b) => a.id - b.id),
+        weeks: payload.weeks.sort((a, b) => a.id - b.id),
       };
     case typeName.clearUserData:
       return {
