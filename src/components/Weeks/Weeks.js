@@ -9,6 +9,8 @@ import { FixedButton } from "../FixedButton/FixedButton";
 import { useDispatch } from "react-redux";
 import { deleteWeek } from "../../redux/actions/dietActions";
 import { RecipeDetails } from "../RecipeDetails/RecipeDetails";
+import { getFirestore, doc, deleteDoc } from "firebase/firestore";
+import { app } from "../../firebase";
 
 export const Weeks = () => {
   let weeks = useSelector((state) => state.diet.weeks);
@@ -21,6 +23,7 @@ export const Weeks = () => {
   const [isRecipePopupContent, setIsRecipePopupContent] = useState(false);
   const [recipePopupContent, setRecipePopupContent] = useState(null);
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.userId);
 
   const handleAddWeek = () => {
     setPopupTitle("Nowy tydzień");
@@ -50,10 +53,13 @@ export const Weeks = () => {
     );
   };
 
-  const handleDeleteWeek = (weekId) => {
+  const handleDeleteWeek = async (weekId) => {
     setShowPopup(false);
     setPopupTitle("");
     setPopupContent(null);
+    try {
+      await deleteDoc(doc(getFirestore(app), "users", userId, "weeks", weekId));
+    } catch (error) {}
     dispatch(deleteWeek(weekId));
   };
 
