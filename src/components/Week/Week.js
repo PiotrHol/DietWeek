@@ -19,6 +19,8 @@ import {
 } from "../../redux/actions/editedWeekActions";
 import { setWeek } from "../../redux/actions/dietActions";
 import classNames from "classnames";
+import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
+import { app } from "../../firebase";
 
 export const Week = ({
   isEdit,
@@ -36,6 +38,7 @@ export const Week = ({
   const dietDays = useSelector((state) => state.editedWeek.weekDays);
   const weekCalories = useSelector((state) => state.editedWeek.weekCalories);
   const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.userId);
 
   useEffect(() => {
     if (isEdit && !weekDays) {
@@ -99,7 +102,7 @@ export const Week = ({
     }
   };
 
-  const handleSaveClick = () => {
+  const handleSaveClick = async () => {
     if (
       newWeekName.length > 0 &&
       newWeekName.length < 30 &&
@@ -113,7 +116,28 @@ export const Week = ({
           summaryWeekCalories += weekCalories[dietDay];
         }
       }
-      const weekId = weekDays ? weekDays.id : Date.now().toString();
+      const weekId = weekDays ? weekDays.id.toString() : Date.now().toString();
+      let weekDataToSet = {
+        id: weekId,
+        name: newWeekName,
+        calories: summaryWeekCalories,
+        week: dietDays,
+      };
+      if (weekDays) {
+        try {
+          await updateDoc(
+            doc(getFirestore(app), "users", userId, "weeks", weekId),
+            weekDataToSet
+          );
+        } catch (error) {}
+      } else {
+        try {
+          await setDoc(
+            doc(getFirestore(app), "users", userId, "weeks", weekId),
+            weekDataToSet
+          );
+        } catch (error) {}
+      }
       dispatch(setWeek(weekId, newWeekName, summaryWeekCalories, dietDays));
       closeWeekHandler();
     } else {
