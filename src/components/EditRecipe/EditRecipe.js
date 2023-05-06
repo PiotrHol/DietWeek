@@ -74,7 +74,7 @@ export const EditRecipe = ({
         {
           id: prev.length + 1,
           name: newIngredientName,
-          quantity: newIngredientQuantity,
+          quantity: Number(newIngredientQuantity),
           unit: newIngredientUnit,
         },
       ]);
