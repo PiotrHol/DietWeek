@@ -1,5 +1,11 @@
 import { typeName, setUserData } from "../actions/dietActions";
-import { getFirestore, getDocs, collection } from "firebase/firestore";
+import {
+  getFirestore,
+  getDocs,
+  collection,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 import { app } from "../../firebase";
 
 const initialState = {
@@ -29,16 +35,26 @@ const fetchUserData = async (dispatch, getState) => {
       id: week.id,
     });
   });
-  dispatch(setUserData(recipesArray, weeksArray));
+  const activeWeekData = await getDoc(
+    doc(getFirestore(app), "users", getState().auth.userId)
+  );
+  dispatch(setUserData(recipesArray, weeksArray, activeWeekData.data()));
 };
 
 const dietReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case typeName.setUserData:
+      const activeWeekFromStore = state.weeks.filter(
+        (week) => week.id === payload.activeWeek.activeWeekId
+      );
       return {
         ...state,
         recipes: payload.recipes.sort((a, b) => a.id - b.id),
         weeks: payload.weeks.sort((a, b) => a.id - b.id),
+        activeWeek: {
+          ...activeWeekFromStore[0],
+          ingredients: payload.activeWeek.activeWeekIngredients,
+        },
       };
     case typeName.clearUserData:
       return {
