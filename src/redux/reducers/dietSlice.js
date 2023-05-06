@@ -108,6 +108,11 @@ const dietReducer = (state = initialState, { type, payload }) => {
         ...state,
         activeWeek: payload,
       };
+    case typeName.deleteActiveWeek:
+      return {
+        ...state,
+        activeWeek: null,
+      };
     default:
       return state;
   }
