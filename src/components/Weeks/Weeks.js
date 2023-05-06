@@ -7,10 +7,19 @@ import { Week } from "../Week/Week";
 import { RecipesGallery } from "../RecipesGallery/RecipesGallery";
 import { FixedButton } from "../FixedButton/FixedButton";
 import { useDispatch } from "react-redux";
-import { deleteWeek } from "../../redux/actions/dietActions";
+import {
+  deleteWeek,
+  setActiveWeek,
+  deleteActiveWeek,
+} from "../../redux/actions/dietActions";
 import { RecipeDetails } from "../RecipeDetails/RecipeDetails";
 import { getFirestore, doc, deleteDoc } from "firebase/firestore";
 import { app } from "../../firebase";
+import {
+  defaultDietWeek,
+  defaultDietDay,
+} from "../../settings/recipesCategory";
+import classNames from "classnames";
 
 export const Weeks = () => {
   let weeks = useSelector((state) => state.diet.weeks);
@@ -24,6 +33,7 @@ export const Weeks = () => {
   const [recipePopupContent, setRecipePopupContent] = useState(null);
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.userId);
+  const activeWeek = useSelector((state) => state.diet.activeWeek);
 
   const handleAddWeek = () => {
     setPopupTitle("Nowy tydzień");
@@ -60,7 +70,53 @@ export const Weeks = () => {
     try {
       await deleteDoc(doc(getFirestore(app), "users", userId, "weeks", weekId));
     } catch (error) {}
+    if (activeWeek && activeWeek.id === weekId) {
+      dispatch(deleteActiveWeek());
+    }
     dispatch(deleteWeek(weekId));
+  };
+
+  const handleSetActiveWeek = (weekData) => {
+    const ingredientsData = [];
+    for (const dietDay of defaultDietWeek) {
+      for (const dietDish of defaultDietDay) {
+        const dietFilteredDish = {
+          ...recipes.filter(
+            (recipe) => recipe.id === weekData.week[dietDay][dietDish][0]
+          )[0],
+        };
+        const dishIngredients = dietFilteredDish.ingredients;
+        if (dishIngredients) {
+          for (const dishIngredient of dishIngredients) {
+            let isIngredientAdded = false;
+            ingredientsData.forEach((ingredient, index) => {
+              if (
+                ingredient.name.toLowerCase() ===
+                  dishIngredient.name.toLowerCase() &&
+                ingredient.unit === dishIngredient.unit
+              ) {
+                ingredientsData[index].quantity += Number(
+                  dishIngredient.quantity
+                );
+                isIngredientAdded = true;
+              }
+            });
+            if (!isIngredientAdded) {
+              ingredientsData.push({
+                name: dishIngredient.name.toLowerCase(),
+                quantity: Number(dishIngredient.quantity),
+                unit: dishIngredient.unit,
+                check: false,
+              });
+            }
+          }
+        }
+      }
+    }
+    setShowPopup(false);
+    setPopupTitle("");
+    setPopupContent(null);
+    dispatch(setActiveWeek(weekData, [...ingredientsData]));
   };
 
   const handleShowRecipe = (recipeId) => {
@@ -111,12 +167,14 @@ export const Weeks = () => {
             buttonTextSize={13}
             buttonHandleClick={() => handleDeleteWeek(weekData.id)}
           />
-          <Button
-            buttonStyle="secondary"
-            buttonText="Aktywuj"
-            buttonTextSize={13}
-            buttonHandleClick={() => console.log("Active")}
-          />
+          {activeWeek && weekData.id === activeWeek.id ? null : (
+            <Button
+              buttonStyle="secondary"
+              buttonText="Aktywuj"
+              buttonTextSize={13}
+              buttonHandleClick={() => handleSetActiveWeek(weekData)}
+            />
+          )}
         </div>
         <Week
           isEdit={false}
@@ -137,7 +195,10 @@ export const Weeks = () => {
             {weeks.map((week) => (
               <div
                 key={week.id}
-                className="weeks__week"
+                className={classNames("weeks__week", {
+                  "weeks__week--active":
+                    activeWeek && activeWeek.id === week.id,
+                })}
                 data-name={week.name}
                 onClick={() => handleShowWeek(week)}
               >
