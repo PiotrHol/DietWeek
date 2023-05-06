@@ -6,6 +6,7 @@ const typeName = {
   setWeek: "diet/setWeek",
   deleteWeek: "diet/deleteWeek",
   setActiveWeek: "diet/setActiveWeek",
+  deleteActiveWeek: "diet/deleteActiveWeek",
 };
 
 const setUserData = (recipes, weeks) => {
@@ -66,6 +67,12 @@ const setActiveWeek = (weekData, ingredientsData) => {
   };
 };
 
+const deleteActiveWeek = () => {
+  return {
+    type: typeName.deleteActiveWeek,
+  };
+};
+
 export {
   typeName,
   setUserData,
@@ -75,4 +82,5 @@ export {
   setWeek,
   deleteWeek,
   setActiveWeek,
+  deleteActiveWeek,
 };
