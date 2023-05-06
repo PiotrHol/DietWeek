@@ -13,7 +13,13 @@ import {
   deleteActiveWeek,
 } from "../../redux/actions/dietActions";
 import { RecipeDetails } from "../RecipeDetails/RecipeDetails";
-import { getFirestore, doc, deleteDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  deleteDoc,
+  updateDoc,
+  deleteField,
+} from "firebase/firestore";
 import { app } from "../../firebase";
 import {
   defaultDietWeek,
@@ -71,13 +77,19 @@ export const Weeks = () => {
       await deleteDoc(doc(getFirestore(app), "users", userId, "weeks", weekId));
     } catch (error) {}
     if (activeWeek && activeWeek.id === weekId) {
+      try {
+        await updateDoc(doc(getFirestore(app), "users", userId), {
+          activeWeekId: deleteField(),
+          activeWeekIngredients: deleteField(),
+        });
+      } catch (error) {}
       dispatch(deleteActiveWeek());
     }
     dispatch(deleteWeek(weekId));
   };
 
-  const handleSetActiveWeek = (weekData) => {
-    const ingredientsData = [];
+  const handleSetActiveWeek = async (weekData) => {
+    const ingredientsDataTemp = [];
     for (const dietDay of defaultDietWeek) {
       for (const dietDish of defaultDietDay) {
         const dietFilteredDish = {
@@ -89,20 +101,20 @@ export const Weeks = () => {
         if (dishIngredients) {
           for (const dishIngredient of dishIngredients) {
             let isIngredientAdded = false;
-            ingredientsData.forEach((ingredient, index) => {
+            ingredientsDataTemp.forEach((ingredient, index) => {
               if (
                 ingredient.name.toLowerCase() ===
                   dishIngredient.name.toLowerCase() &&
                 ingredient.unit === dishIngredient.unit
               ) {
-                ingredientsData[index].quantity += Number(
+                ingredientsDataTemp[index].quantity += Number(
                   dishIngredient.quantity
                 );
                 isIngredientAdded = true;
               }
             });
             if (!isIngredientAdded) {
-              ingredientsData.push({
+              ingredientsDataTemp.push({
                 name: dishIngredient.name.toLowerCase(),
                 quantity: Number(dishIngredient.quantity),
                 unit: dishIngredient.unit,
@@ -113,10 +125,23 @@ export const Weeks = () => {
         }
       }
     }
+    let ingredientsData = {};
+    ingredientsDataTemp.forEach((ingredient, index) => {
+      ingredientsData = {
+        ...ingredientsData,
+        [index + 1]: ingredient,
+      };
+    });
+    try {
+      await updateDoc(doc(getFirestore(app), "users", userId), {
+        activeWeekId: weekData.id,
+        activeWeekIngredients: { ...ingredientsData },
+      });
+    } catch (error) {}
     setShowPopup(false);
     setPopupTitle("");
     setPopupContent(null);
-    dispatch(setActiveWeek(weekData, [...ingredientsData]));
+    dispatch(setActiveWeek(weekData, { ...ingredientsData }));
   };
 
   const handleShowRecipe = (recipeId) => {
