@@ -31,6 +31,9 @@
   &__days {
     width: 82%;
     margin: 12px auto;
+    &--active {
+      margin-top: 30px;
+    }
   }
   &__day {
     width: 100%;

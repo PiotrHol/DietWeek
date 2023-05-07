@@ -19,8 +19,15 @@ import {
 } from "../../redux/actions/editedWeekActions";
 import { setWeek } from "../../redux/actions/dietActions";
 import classNames from "classnames";
-import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  updateDoc,
+  deleteField,
+} from "firebase/firestore";
 import { app } from "../../firebase";
+import { deleteActiveWeek } from "../../redux/actions/dietActions";
 
 export const Week = ({
   isEdit,
@@ -39,6 +46,7 @@ export const Week = ({
   const weekCalories = useSelector((state) => state.editedWeek.weekCalories);
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.userId);
+  const activeWeek = useSelector((state) => state.diet.activeWeek);
 
   useEffect(() => {
     if (isEdit && !weekDays) {
@@ -138,6 +146,15 @@ export const Week = ({
           );
         } catch (error) {}
       }
+      if (activeWeek && activeWeek.id === weekId) {
+        try {
+          await updateDoc(doc(getFirestore(app), "users", userId), {
+            activeWeekId: deleteField(),
+            activeWeekIngredients: deleteField(),
+          });
+        } catch (error) {}
+        dispatch(deleteActiveWeek());
+      }
       dispatch(setWeek(weekId, newWeekName, summaryWeekCalories, dietDays));
       closeWeekHandler();
     } else {
@@ -172,7 +189,9 @@ export const Week = ({
         </div>
       )}
       <div className="week__title">{isPopup ? "Tydzień" : weekName}</div>
-      <div className="week__days">
+      <div
+        className={classNames("week__days", { "week__days--active": !isPopup })}
+      >
         <Slider {...slickSettings}>
           {defaultDietWeek.map((dietDay, dietDayIndex) => (
             <div key={`${dietDay}-${dietDayIndex}`} className="week__day">
