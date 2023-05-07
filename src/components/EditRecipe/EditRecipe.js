@@ -62,7 +62,7 @@ export const EditRecipe = ({
     if (
       newIngredientName &&
       newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź0-9% ]*$/g) &&
-      newIngredientName.length < 30 &&
+      newIngredientName.length < 50 &&
       newIngredientQuantity &&
       newIngredientQuantity < 10000 &&
       newIngredientUnit
@@ -83,7 +83,7 @@ export const EditRecipe = ({
       setNewIngredientUnit("g");
     } else {
       if (
-        newIngredientName.length >= 30 ||
+        newIngredientName.length >= 50 ||
         !newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź0-9% ]*$/g)
       ) {
         setNewIngredientName("");
@@ -144,7 +144,7 @@ export const EditRecipe = ({
               message: "Nazwa może zawierać maksymalnie 50 znaków",
             },
             pattern: {
-              value: /^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź ]*$/g,
+              value: /^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź-, ]*$/g,
               message: "Nazwa zawiera nieprawidłowe znaki",
             },
           })}
@@ -270,8 +270,8 @@ export const EditRecipe = ({
             placeholder="Opis przygotowania"
             {...register("recipeDescription", {
               maxLength: {
-                value: 500,
-                message: "Przepis może zawierać maksymalnie 500 znaków",
+                value: 1000,
+                message: "Przepis może zawierać maksymalnie 1000 znaków",
               },
               pattern: {
                 value: /^[^<>]*$/g,
