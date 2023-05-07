@@ -144,7 +144,7 @@ export const EditRecipe = ({
               message: "Nazwa może zawierać maksymalnie 50 znaków",
             },
             pattern: {
-              value: /^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź-, ]*$/g,
+              value: /^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź\-, ]*$/g,
               message: "Nazwa zawiera nieprawidłowe znaki",
             },
           })}
