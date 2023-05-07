@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Recipes } from "../Recipes/Recipes";
 import { Weeks } from "../Weeks/Weeks";
+import { ActiveWeek } from "../ActiveWeek/ActiveWeek";
 
 export const Home = () => {
   let { path, url } = useRouteMatch();
@@ -27,6 +28,7 @@ export const Home = () => {
       <Switch>
         <PrivateRoute exact path={path}>
           <HomeHeader title="Strona główna" />
+          <ActiveWeek />
         </PrivateRoute>
         <PrivateRoute path={`${path}/recipes`}>
           <HomeHeader title="Przepisy" />
