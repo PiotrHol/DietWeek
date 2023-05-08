@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/DietWeek/static/css/main.829cd5de.css",
-    "main.js": "/DietWeek/static/js/main.aa932d2f.js",
+    "main.js": "/DietWeek/static/js/main.10110e21.js",
     "static/media/slick.svg": "/DietWeek/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/DietWeek/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/DietWeek/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/DietWeek/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/DietWeek/index.html",
     "main.829cd5de.css.map": "/DietWeek/static/css/main.829cd5de.css.map",
-    "main.aa932d2f.js.map": "/DietWeek/static/js/main.aa932d2f.js.map"
+    "main.10110e21.js.map": "/DietWeek/static/js/main.10110e21.js.map"
   },
   "entrypoints": [
     "static/css/main.829cd5de.css",
-    "static/js/main.aa932d2f.js"
+    "static/js/main.10110e21.js"
   ]
 }
