@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { Recipes } from "../Recipes/Recipes";
 import { Weeks } from "../Weeks/Weeks";
 import { ActiveWeek } from "../ActiveWeek/ActiveWeek";
+import { ShoppingList } from "../ShoppingList/ShoppingList";
 
 export const Home = () => {
   let { path, url } = useRouteMatch();
@@ -40,6 +41,7 @@ export const Home = () => {
         </PrivateRoute>
         <PrivateRoute path={`${path}/shopping-list`}>
           <HomeHeader title="Lista zakupów" />
+          <ShoppingList />
         </PrivateRoute>
         <PrivateRoute path={`${path}/settings`}>
           <HomeHeader title="Ustawienia" />
