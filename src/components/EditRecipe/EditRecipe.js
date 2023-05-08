@@ -61,7 +61,7 @@ export const EditRecipe = ({
   const newIngredientBtnHandler = () => {
     if (
       newIngredientName &&
-      newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź0-9% ]*$/g) &&
+      newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź0-9%()\- ]*$/g) &&
       newIngredientName.length < 50 &&
       newIngredientQuantity &&
       newIngredientQuantity < 10000 &&
@@ -84,7 +84,7 @@ export const EditRecipe = ({
     } else {
       if (
         newIngredientName.length >= 50 ||
-        !newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź0-9% ]*$/g)
+        !newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź0-9%()\- ]*$/g)
       ) {
         setNewIngredientName("");
         setNewIngredientNameError(true);
@@ -184,6 +184,53 @@ export const EditRecipe = ({
         />
         <div className="edit-recipe__ingredients">
           <div className="edit-recipe__section-title">Składniki</div>
+          <div className="edit-recipe__add-ingredient">
+            <input
+              className={classNames(
+                "edit-recipe__add-ingredient-input edit-recipe__add-ingredient-name",
+                {
+                  "edit-recipe__add-ingredient-input--error":
+                    newIngredientNameError,
+                }
+              )}
+              type="text"
+              value={newIngredientName}
+              placeholder="Składnik"
+              onChange={(e) => setNewIngredientName(e.target.value)}
+            />
+            <input
+              className={classNames(
+                "edit-recipe__add-ingredient-input edit-recipe__add-ingredient-quantity",
+                {
+                  "edit-recipe__add-ingredient-input--error":
+                    newIngredientQuantityError,
+                }
+              )}
+              type="number"
+              min={1}
+              value={newIngredientQuantity}
+              placeholder="Ilość"
+              onChange={(e) => setNewIngredientQuantity(e.target.value)}
+            />
+            <select
+              className="edit-recipe__select edit-recipe__add-ingredient-select"
+              value={newIngredientUnit}
+              onChange={(e) => setNewIngredientUnit(e.target.value)}
+            >
+              <option className="edit-recipe__select-option" value="g">
+                g
+              </option>
+              <option className="edit-recipe__select-option" value="szt">
+                szt
+              </option>
+            </select>
+          </div>
+          <Button
+            buttonStyle="secondary"
+            buttonText="Dodaj"
+            buttonTextSize={15}
+            buttonHandleClick={newIngredientBtnHandler}
+          />
           <div
             className={classNames("edit-recipe__ingredients-list", {
               "edit-recipe__ingredients-list-not-empty": ingredients.length > 0,
@@ -215,52 +262,6 @@ export const EditRecipe = ({
               </div>
             ))}
           </div>
-          <div className="edit-recipe__add-ingredient">
-            <input
-              className={classNames(
-                "edit-recipe__add-ingredient-input edit-recipe__add-ingredient-name",
-                {
-                  "edit-recipe__add-ingredient-input--error":
-                    newIngredientNameError,
-                }
-              )}
-              type="text"
-              value={newIngredientName}
-              placeholder="Składnik"
-              onChange={(e) => setNewIngredientName(e.target.value)}
-            />
-            <input
-              className={classNames(
-                "edit-recipe__add-ingredient-input edit-recipe__add-ingredient-quantity",
-                {
-                  "edit-recipe__add-ingredient-input--error":
-                    newIngredientQuantityError,
-                }
-              )}
-              type="number"
-              value={newIngredientQuantity}
-              placeholder="Ilość"
-              onChange={(e) => setNewIngredientQuantity(e.target.value)}
-            />
-            <select
-              className="edit-recipe__select edit-recipe__add-ingredient-select"
-              value={newIngredientUnit}
-              onChange={(e) => setNewIngredientUnit(e.target.value)}
-            >
-              <option className="edit-recipe__select-option" value="g">
-                g
-              </option>
-              <option className="edit-recipe__select-option" value="szt">
-                szt
-              </option>
-            </select>
-          </div>
-          <Button
-            buttonStyle="secondary"
-            buttonText="Dodaj"
-            buttonTextSize={15}
-            buttonHandleClick={newIngredientBtnHandler}
-          />
         </div>
         <div className="edit-recipe__description">
           <div className="edit-recipe__section-title">Przepis</div>
