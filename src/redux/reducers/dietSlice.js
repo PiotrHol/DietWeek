@@ -44,7 +44,7 @@ const fetchUserData = async (dispatch, getState) => {
 const dietReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case typeName.setUserData:
-      const activeWeekFromStore = state.weeks.filter(
+      const activeWeekFromStore = payload.weeks.filter(
         (week) => week.id === payload.activeWeek.activeWeekId
       );
       return {
@@ -128,6 +128,20 @@ const dietReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         activeWeek: null,
+      };
+    case typeName.checkIngredient:
+      return {
+        ...state,
+        activeWeek: {
+          ...state.activeWeek,
+          ingredients: {
+            ...state.activeWeek.ingredients,
+            [payload.key]: {
+              ...state.activeWeek.ingredients[payload.key],
+              check: payload.value,
+            },
+          },
+        },
       };
     default:
       return state;
