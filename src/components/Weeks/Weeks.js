@@ -232,11 +232,13 @@ export const Weeks = () => {
               </div>
             ))}
           </div>
-          <FixedButton
-            buttonText="Dodaj"
-            buttonTextSize={15}
-            buttonHandleClick={handleAddWeek}
-          />
+          {weeks.length <= 50 && (
+            <FixedButton
+              buttonText="Dodaj"
+              buttonTextSize={15}
+              buttonHandleClick={handleAddWeek}
+            />
+          )}
         </>
       ) : (
         <div className="weeks__empty">
