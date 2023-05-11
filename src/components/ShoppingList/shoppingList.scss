@@ -38,25 +38,56 @@
     user-select: none;
     -webkit-tap-highlight-color: transparent;
     &:hover {
-      box-shadow: 0 0 5px rgba(53, 83, 149, 0.5);
-      color: $mainColor;
+      @include mediaDesktop {
+        box-shadow: 0 0 5px rgba(53, 83, 149, 0.5);
+        color: $mainColor;
+      }
+    }
+    &--active {
+      box-shadow: 0 0 5px -1px $secondaryColor;
     }
     @include mediaMobile {
       width: 250px;
-      flex-direction: column;
-      justify-content: center;
-      //   align-items: flex-start;
-      //   height: 75px;
+      height: 65px;
     }
     &-content {
-      width: 100%;
+      width: 80%;
       display: flex;
+      align-items: center;
     }
     &-value {
       &:first-child {
         margin-right: 5px;
+        max-width: 70%;
+        font-weight: 600;
         &::first-letter {
           text-transform: uppercase;
+        }
+      }
+    }
+    &-check {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 20px;
+      height: 20px;
+      border: 1px solid $shadowColor;
+      border-radius: 4px;
+      box-shadow: 0 0 5px -1px $shadowColor;
+      transition: box-shadow 0.4s ease-out, border-color 0.4s ease-out;
+      &-icon {
+        opacity: 0;
+        font-size: 12px;
+        transform: rotate(90deg);
+        transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+      }
+      &--active {
+        border-color: $secondaryColor;
+        box-shadow: 0 0 5px -1px $secondaryColor;
+        .shopping-list__ingredient-check-icon {
+          opacity: 1;
+          color: $secondaryColor;
+          transform: rotate(0);
         }
       }
     }
