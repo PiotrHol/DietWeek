@@ -23,11 +23,9 @@ export const Recipes = () => {
   }, [recipes]);
 
   const handleAddRecipeBtn = () => {
-    if (recipes.length <= 200) {
-      setPopupTitle("Dodaj przepis");
-      setPopupContent(<EditRecipe closeHandler={() => setShowPopup(false)} />);
-      setShowPopup(true);
-    }
+    setPopupTitle("Dodaj przepis");
+    setPopupContent(<EditRecipe closeHandler={() => setShowPopup(false)} />);
+    setShowPopup(true);
   };
 
   const handleShowRecipe = ({
@@ -125,11 +123,13 @@ export const Recipes = () => {
               </div>
             ))}
           </div>
-          <FixedButton
-            buttonText="Dodaj"
-            buttonTextSize={15}
-            buttonHandleClick={handleAddRecipeBtn}
-          />
+          {recipes.length <= 200 && (
+            <FixedButton
+              buttonText="Dodaj"
+              buttonTextSize={15}
+              buttonHandleClick={handleAddRecipeBtn}
+            />
+          )}
         </>
       ) : (
         <div className="recipes__empty">
