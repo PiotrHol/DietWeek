@@ -9,7 +9,7 @@ import {
 import { app } from "../../firebase";
 
 const initialState = {
-  recipes: [],
+  recipes: new Map(),
   weeks: [],
   activeWeek: null,
 };
@@ -18,9 +18,9 @@ const fetchUserData = async (dispatch, getState) => {
   const recipes = await getDocs(
     collection(getFirestore(app), "users", getState().auth.userId, "recipes")
   );
-  const recipesArray = [];
+  const recipesMap = new Map();
   recipes.forEach((recipe) => {
-    recipesArray.push({
+    recipesMap.set(recipe.id, {
       ...recipe.data(),
       id: recipe.id,
     });
@@ -38,10 +38,11 @@ const fetchUserData = async (dispatch, getState) => {
   const activeWeekData = await getDoc(
     doc(getFirestore(app), "users", getState().auth.userId)
   );
-  dispatch(setUserData(recipesArray, weeksArray, activeWeekData.data()));
+  dispatch(setUserData(recipesMap, weeksArray, activeWeekData.data()));
 };
 
 const dietReducer = (state = initialState, { type, payload }) => {
+  const tempRecipesMap = state.recipes;
   switch (type) {
     case typeName.setUserData:
       const activeWeekFromStore = payload.weeks.filter(
@@ -49,7 +50,7 @@ const dietReducer = (state = initialState, { type, payload }) => {
       );
       return {
         ...state,
-        recipes: payload.recipes.sort((a, b) => a.id - b.id),
+        recipes: payload.recipes,
         weeks: payload.weeks.sort((a, b) => a.id - b.id),
         activeWeek: {
           ...activeWeekFromStore[0],
@@ -59,12 +60,11 @@ const dietReducer = (state = initialState, { type, payload }) => {
     case typeName.clearUserData:
       return {
         ...state,
-        recipes: [],
+        recipes: new Map(),
+        weeks: [],
+        activeWeek: null,
       };
     case typeName.setRecipe:
-      const isRecipeExists = state.recipes.some(
-        (recipe) => recipe.id === payload.recipeId
-      );
       const recipeData = {
         id: payload.recipeId,
         name: payload.recipeName,
@@ -73,27 +73,16 @@ const dietReducer = (state = initialState, { type, payload }) => {
         ingredients: payload.ingredientsArray,
         description: payload.recipeDescription,
       };
-      if (isRecipeExists) {
-        return {
-          ...state,
-          recipes: state.recipes.map((recipe) => {
-            if (recipe.id === payload.recipeId) {
-              return recipeData;
-            } else {
-              return recipe;
-            }
-          }),
-        };
-      } else {
-        return {
-          ...state,
-          recipes: [...state.recipes, recipeData],
-        };
-      }
-    case typeName.deleteRecipe:
+      tempRecipesMap.set(payload.recipeName, recipeData);
       return {
         ...state,
-        recipes: state.recipes.filter((recipe) => recipe.id !== payload),
+        recipes: tempRecipesMap,
+      };
+    case typeName.deleteRecipe:
+      tempRecipesMap.delete(payload);
+      return {
+        ...state,
+        recipes: tempRecipesMap,
       };
     case typeName.setWeek:
       const isWeekExists = state.weeks.some((week) => week.id === payload.id);
