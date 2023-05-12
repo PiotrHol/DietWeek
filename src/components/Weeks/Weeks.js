@@ -34,7 +34,10 @@ export const Weeks = () => {
   const [popupContent, setPopupContent] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [galleryDayAndCategory, setGalleryDayAndCategory] = useState([]);
-  const recipes = useSelector((state) => state.diet.recipes);
+  const recipesMap = useSelector((state) => state.diet.recipes);
+  const tempRecipes = [];
+  recipesMap.forEach((recipe) => tempRecipes.push(recipe));
+  const recipes = [...tempRecipes];
   const [isRecipePopupContent, setIsRecipePopupContent] = useState(false);
   const [recipePopupContent, setRecipePopupContent] = useState(null);
   const dispatch = useDispatch();
