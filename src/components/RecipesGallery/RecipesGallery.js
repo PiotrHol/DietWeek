@@ -14,14 +14,15 @@ import {
 
 export const RecipesGallery = ({ recipesDayAndCategory, closeGallery }) => {
   const [showGalleryContent, setShowGalleryContent] = useState(false);
-  const recipes = useSelector((state) =>
-    state.diet.recipes.filter(
-      (recipe) =>
-        recipe.category.toLowerCase() ===
-        defaultDietDish[
-          defaultDietDay.indexOf(recipesDayAndCategory[1])
-        ].toLowerCase()
-    )
+  const recipesMap = useSelector((state) => state.diet.recipes);
+  const tempRecipes = [];
+  recipesMap.forEach((recipe) => tempRecipes.push(recipe));
+  const recipes = tempRecipes.filter(
+    (recipe) =>
+      recipe.category.toLowerCase() ===
+      defaultDietDish[
+        defaultDietDay.indexOf(recipesDayAndCategory[1])
+      ].toLowerCase()
   );
   const dispatch = useDispatch();
 
