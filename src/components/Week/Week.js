@@ -76,12 +76,22 @@ export const Week = ({
     // eslint-disable-next-line
   }, []);
 
+  let numberOfCurrentDay = 0;
+
+  if (!isPopup) {
+    numberOfCurrentDay = new Date().getDay() - 1;
+    if (numberOfCurrentDay < 0) {
+      numberOfCurrentDay = 6;
+    }
+  }
+
   const slickSettings = {
     dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 3,
+    initialSlide: numberOfCurrentDay,
     responsive: [
       {
         breakpoint: 600,
