@@ -19,28 +19,27 @@ const clearWeek = () => {
   };
 };
 
-const recalculateCalories = () => {
+const recalculateCalories = (recipesObj) => {
   return {
     type: typeName.recalculateCalories,
+    payload: recipesObj,
   };
 };
 
-const recalculateDayCalories = (day) => {
+const recalculateDayCalories = (day, recipesObj) => {
   return {
     type: typeName.recalculateDayCalories,
-    payload: day,
+    payload: { day, recipesObj },
   };
 };
 
-const setSingleRecipe = (dayAndDish, recipeId, recipeName, recipeCalories) => {
+const setSingleRecipe = (dayAndDish, recipeId) => {
   return {
     type: typeName.setSingleRecipe,
     payload: {
       day: dayAndDish[0],
       dish: dayAndDish[1],
       recipeId,
-      recipeName,
-      recipeCalories,
     },
   };
 };
