@@ -42,13 +42,12 @@ const deleteRecipe = (recipeId) => {
   };
 };
 
-const setWeek = (weekId, weekName, weekCalories, weekData) => {
+const setWeek = (weekId, weekName, weekData) => {
   return {
     type: typeName.setWeek,
     payload: {
       id: weekId,
       name: weekName,
-      calories: weekCalories,
       week: weekData,
     },
   };
