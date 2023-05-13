@@ -33,12 +33,14 @@ const editedWeekReducer = (state = initialState, { type, payload }) => {
         weekCalories: { ...weekCaloriesInitialValues },
       };
     case typeName.recalculateCalories:
+      let tempRecipe = {};
       let summaryCalories = 0;
       let summaryCaloriesWeek = {};
       for (const dietDay of defaultDietWeek) {
         for (const dietDayDish of defaultDietDay) {
-          if (state.weekDays[dietDay][dietDayDish][2]) {
-            summaryCalories += state.weekDays[dietDay][dietDayDish][2];
+          if (payload[state.weekDays[dietDay][dietDayDish]]) {
+            tempRecipe = payload[state.weekDays[dietDay][dietDayDish]];
+            summaryCalories += tempRecipe.calories;
           }
         }
         summaryCaloriesWeek = {
@@ -52,28 +54,27 @@ const editedWeekReducer = (state = initialState, { type, payload }) => {
         weekCalories: { ...summaryCaloriesWeek },
       };
     case typeName.recalculateDayCalories:
+      let tempDayRecipe = {};
       let summaryDayCalories = 0;
       for (const dietDayDish of defaultDietDay) {
-        if (state.weekDays[payload][dietDayDish][2]) {
-          summaryDayCalories += state.weekDays[payload][dietDayDish][2];
+        if (payload.recipesObj[state.weekDays[payload.day][dietDayDish]]) {
+          tempDayRecipe =
+            payload.recipesObj[state.weekDays[payload.day][dietDayDish]];
+          summaryDayCalories += tempDayRecipe.calories;
         }
       }
       return {
         ...state,
         weekCalories: {
           ...state.weekCalories,
-          [payload]: summaryDayCalories,
+          [payload.day]: summaryDayCalories,
         },
       };
     case typeName.setSingleRecipe:
       let tempWeekDays = {
         ...state.weekDays,
       };
-      tempWeekDays[payload.day][payload.dish] = [
-        payload.recipeId,
-        payload.recipeName,
-        payload.recipeCalories,
-      ];
+      tempWeekDays[payload.day][payload.dish] = payload.recipeId;
       return {
         ...state,
         weekDays: tempWeekDays,
