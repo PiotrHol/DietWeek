@@ -9,7 +9,7 @@ import {
 import { app } from "../../firebase";
 
 const initialState = {
-  recipes: new Map(),
+  recipes: {},
   weeks: [],
   activeWeek: null,
 };
@@ -18,12 +18,15 @@ const fetchUserData = async (dispatch, getState) => {
   const recipes = await getDocs(
     collection(getFirestore(app), "users", getState().auth.userId, "recipes")
   );
-  const recipesMap = new Map();
+  let recipesObj = {};
   recipes.forEach((recipe) => {
-    recipesMap.set(recipe.id, {
-      ...recipe.data(),
-      id: recipe.id,
-    });
+    recipesObj = {
+      ...recipesObj,
+      [recipe.id]: {
+        ...recipe.data(),
+        id: recipe.id,
+      },
+    };
   });
   const weeks = await getDocs(
     collection(getFirestore(app), "users", getState().auth.userId, "weeks")
@@ -38,11 +41,10 @@ const fetchUserData = async (dispatch, getState) => {
   const activeWeekData = await getDoc(
     doc(getFirestore(app), "users", getState().auth.userId)
   );
-  dispatch(setUserData(recipesMap, weeksArray, activeWeekData.data()));
+  dispatch(setUserData(recipesObj, weeksArray, activeWeekData.data()));
 };
 
 const dietReducer = (state = initialState, { type, payload }) => {
-  const tempRecipesMap = state.recipes;
   switch (type) {
     case typeName.setUserData:
       const activeWeekFromStore = payload.weeks.filter(
@@ -52,19 +54,23 @@ const dietReducer = (state = initialState, { type, payload }) => {
         ...state,
         recipes: payload.recipes,
         weeks: payload.weeks.sort((a, b) => a.id - b.id),
-        activeWeek: {
-          ...activeWeekFromStore[0],
-          ingredients: payload.activeWeek.activeWeekIngredients,
-        },
+        activeWeek:
+          payload.activeWeek.activeWeekId && activeWeekFromStore
+            ? {
+                ...activeWeekFromStore[0],
+                ingredients: payload.activeWeek.activeWeekIngredients,
+              }
+            : null,
       };
     case typeName.clearUserData:
       return {
         ...state,
-        recipes: new Map(),
+        recipes: {},
         weeks: [],
         activeWeek: null,
       };
     case typeName.setRecipe:
+      let tempRecipesObj = state.recipes;
       const recipeData = {
         id: payload.recipeId,
         name: payload.recipeName,
@@ -73,16 +79,22 @@ const dietReducer = (state = initialState, { type, payload }) => {
         ingredients: payload.ingredientsArray,
         description: payload.recipeDescription,
       };
-      tempRecipesMap.set(payload.recipeName, recipeData);
+      tempRecipesObj = {
+        ...tempRecipesObj,
+        [payload.recipeId]: {
+          ...recipeData,
+        },
+      };
       return {
         ...state,
-        recipes: tempRecipesMap,
+        recipes: tempRecipesObj,
       };
     case typeName.deleteRecipe:
-      tempRecipesMap.delete(payload);
+      const tempRecipesObjToSet = state.recipes;
+      delete tempRecipesObjToSet[payload];
       return {
         ...state,
-        recipes: tempRecipesMap,
+        recipes: tempRecipesObjToSet,
       };
     case typeName.setWeek:
       const isWeekExists = state.weeks.some((week) => week.id === payload.id);
