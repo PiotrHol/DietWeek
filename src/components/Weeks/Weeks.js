@@ -34,10 +34,7 @@ export const Weeks = () => {
   const [popupContent, setPopupContent] = useState(null);
   const [showGallery, setShowGallery] = useState(false);
   const [galleryDayAndCategory, setGalleryDayAndCategory] = useState([]);
-  const recipesMap = useSelector((state) => state.diet.recipes);
-  const tempRecipes = [];
-  recipesMap.forEach((recipe) => tempRecipes.push(recipe));
-  const recipes = [...tempRecipes];
+  const recipesObj = useSelector((state) => state.diet.recipes);
   const [isRecipePopupContent, setIsRecipePopupContent] = useState(false);
   const [recipePopupContent, setRecipePopupContent] = useState(null);
   const dispatch = useDispatch();
@@ -95,34 +92,32 @@ export const Weeks = () => {
     const ingredientsDataTemp = [];
     for (const dietDay of defaultDietWeek) {
       for (const dietDish of defaultDietDay) {
-        const dietFilteredDish = {
-          ...recipes.filter(
-            (recipe) => recipe.id === weekData.week[dietDay][dietDish][0]
-          )[0],
-        };
-        const dishIngredients = dietFilteredDish.ingredients;
-        if (dishIngredients) {
-          for (const dishIngredient of dishIngredients) {
-            let isIngredientAdded = false;
-            ingredientsDataTemp.forEach((ingredient, index) => {
-              if (
-                ingredient.name.toLowerCase() ===
-                  dishIngredient.name.toLowerCase() &&
-                ingredient.unit === dishIngredient.unit
-              ) {
-                ingredientsDataTemp[index].quantity += Number(
-                  dishIngredient.quantity
-                );
-                isIngredientAdded = true;
-              }
-            });
-            if (!isIngredientAdded) {
-              ingredientsDataTemp.push({
-                name: dishIngredient.name.toLowerCase(),
-                quantity: Number(dishIngredient.quantity),
-                unit: dishIngredient.unit,
-                check: false,
+        if (recipesObj[weekData.week[dietDay][dietDish]]) {
+          const dietFilteredDish = recipesObj[weekData.week[dietDay][dietDish]];
+          const dishIngredients = dietFilteredDish.ingredients;
+          if (dishIngredients) {
+            for (const dishIngredient of dishIngredients) {
+              let isIngredientAdded = false;
+              ingredientsDataTemp.forEach((ingredient, index) => {
+                if (
+                  ingredient.name.toLowerCase() ===
+                    dishIngredient.name.toLowerCase() &&
+                  ingredient.unit === dishIngredient.unit
+                ) {
+                  ingredientsDataTemp[index].quantity += Number(
+                    dishIngredient.quantity
+                  );
+                  isIngredientAdded = true;
+                }
               });
+              if (!isIngredientAdded) {
+                ingredientsDataTemp.push({
+                  name: dishIngredient.name.toLowerCase(),
+                  quantity: Number(dishIngredient.quantity),
+                  unit: dishIngredient.unit,
+                  check: false,
+                });
+              }
             }
           }
         }
@@ -149,9 +144,7 @@ export const Weeks = () => {
 
   const handleShowRecipe = (recipeId) => {
     if (recipeId) {
-      const recipeToShow = recipes.filter(
-        (recipe) => recipe.id === recipeId
-      )[0];
+      const recipeToShow = recipesObj[recipeId];
       setRecipePopupContent(
         <div className="weeks__recipe-popup">
           <Button
@@ -215,6 +208,19 @@ export const Weeks = () => {
     setShowPopup(true);
   };
 
+  const calculateWeekCalories = (week) => {
+    let summaryWeekCalories = 0;
+    for (const dietDay of defaultDietWeek) {
+      for (const dayDish of defaultDietDay) {
+        if (week[dietDay][dayDish] && recipesObj[week[dietDay][dayDish]]) {
+          let currentDishFromCurrentDay = recipesObj[week[dietDay][dayDish]];
+          summaryWeekCalories += currentDishFromCurrentDay.calories;
+        }
+      }
+    }
+    return summaryWeekCalories;
+  };
+
   return (
     <div className="weeks">
       {weeks.length > 0 ? (
@@ -231,7 +237,9 @@ export const Weeks = () => {
                 onClick={() => handleShowWeek(week)}
               >
                 <div className="weeks__week-name">{week.name}</div>
-                <div className="weeks__week-calories">{week.calories} kcal</div>
+                <div className="weeks__week-calories">
+                  {calculateWeekCalories(week.week)} kcal
+                </div>
               </div>
             ))}
           </div>
