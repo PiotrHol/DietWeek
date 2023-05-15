@@ -10,9 +10,11 @@ import { recipeDefaultCategory } from "../../settings/recipesCategory";
 import classNames from "classnames";
 
 export const Recipes = () => {
-  let recipesMap = useSelector((state) => state.diet.recipes);
+  let recipesObj = useSelector((state) => state.diet.recipes);
   const tempRecipes = [];
-  recipesMap.forEach((recipe) => tempRecipes.push(recipe));
+  Object.keys(recipesObj).forEach((recipe) =>
+    tempRecipes.push(recipesObj[recipe])
+  );
   const [recipes, setRecipes] = useState([...tempRecipes]);
   const [recipesToShow, setRecipesToShow] = useState(recipes);
   const [showPopup, setShowPopup] = useState(false);
@@ -22,12 +24,14 @@ export const Recipes = () => {
 
   useEffect(() => {
     const recipesArray = [];
-    recipesMap.forEach((recipe) => recipesArray.push(recipe));
-    setRecipes([...recipesArray]);
-    setRecipesToShow([...recipes]);
+    Object.keys(recipesObj).forEach((recipe) =>
+      recipesArray.push(recipesObj[recipe])
+    );
+    setRecipes(recipesArray);
+    setRecipesToShow(recipesArray);
     setActiveFilter("all");
     // eslint-disable-next-line
-  }, [recipesMap]);
+  }, [recipesObj]);
 
   const handleAddRecipeBtn = () => {
     setPopupTitle("Dodaj przepis");
