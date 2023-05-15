@@ -18,7 +18,7 @@ export const ActiveWeek = () => {
   const [popupContent, setPopupContent] = useState(null);
 
   const showRecipe = (recipeId) => {
-    const recipeToShow = recipes.get(recipeId);
+    const recipeToShow = recipes[recipeId];
     setPopupTitle(recipeToShow.category);
     setPopupContent(
       <RecipeDetails
