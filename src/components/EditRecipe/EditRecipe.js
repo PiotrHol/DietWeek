@@ -8,10 +8,21 @@ import { Button } from "../Button/Button";
 import classNames from "classnames";
 import { useDispatch } from "react-redux";
 import { setRecipe } from "../../redux/actions/dietActions";
-import { getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  updateDoc,
+  deleteField,
+} from "firebase/firestore";
 import { app } from "../../firebase";
 import { useSelector } from "react-redux";
 import { recipeDefaultCategory } from "../../settings/recipesCategory";
+import { deleteActiveWeek } from "../../redux/actions/dietActions";
+import {
+  defaultDietWeek,
+  defaultDietDay,
+} from "../../settings/recipesCategory";
 
 export const EditRecipe = ({
   recipeId = null,
@@ -38,6 +49,7 @@ export const EditRecipe = ({
   } = useForm();
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.userId);
+  const activeWeek = useSelector((state) => state.diet.activeWeek);
 
   useEffect(() => {
     if (recipeName) {
@@ -124,6 +136,23 @@ export const EditRecipe = ({
           recipeDataToSet
         );
       } catch (error) {}
+    }
+    let isInActiveWeek = false;
+    for (const dietDay of defaultDietWeek) {
+      for (const dietDish of defaultDietDay) {
+        if (activeWeek && activeWeek.week[dietDay][dietDish] === idOfRecipe) {
+          isInActiveWeek = true;
+        }
+      }
+    }
+    if (isInActiveWeek) {
+      try {
+        await updateDoc(doc(getFirestore(app), "users", userId), {
+          activeWeekId: deleteField(),
+          activeWeekIngredients: deleteField(),
+        });
+      } catch (error) {}
+      dispatch(deleteActiveWeek());
     }
     dispatch(setRecipe(idOfRecipe, editFormdata, category, ingredients));
     closeHandler();
