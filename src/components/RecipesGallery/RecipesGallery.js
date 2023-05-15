@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { useDispatch } from "react-redux";
 import {
   setSingleRecipe,
-  recalculateCalories,
+  recalculateDayCalories,
 } from "../../redux/actions/editedWeekActions";
 import {
   defaultDietDay,
@@ -14,9 +14,11 @@ import {
 
 export const RecipesGallery = ({ recipesDayAndCategory, closeGallery }) => {
   const [showGalleryContent, setShowGalleryContent] = useState(false);
-  const recipesMap = useSelector((state) => state.diet.recipes);
+  const recipesObj = useSelector((state) => state.diet.recipes);
   const tempRecipes = [];
-  recipesMap.forEach((recipe) => tempRecipes.push(recipe));
+  Object.keys(recipesObj).forEach((recipe) =>
+    tempRecipes.push(recipesObj[recipe])
+  );
   const recipes = tempRecipes.filter(
     (recipe) =>
       recipe.category.toLowerCase() ===
@@ -41,10 +43,10 @@ export const RecipesGallery = ({ recipesDayAndCategory, closeGallery }) => {
     }, 400);
   };
 
-  const handleRecipeToSetClick = (e, id, name, calories) => {
+  const handleRecipeToSetClick = (e, id) => {
     e.stopPropagation();
-    dispatch(setSingleRecipe(recipesDayAndCategory, id, name, calories));
-    dispatch(recalculateCalories(recipesDayAndCategory[0]));
+    dispatch(setSingleRecipe(recipesDayAndCategory, id));
+    dispatch(recalculateDayCalories(recipesDayAndCategory[0], recipesObj));
     closeGallery();
   };
 
@@ -69,14 +71,7 @@ export const RecipesGallery = ({ recipesDayAndCategory, closeGallery }) => {
               <div
                 key={recipe.id}
                 className="recipes-gallery__recipe"
-                onClick={(e) =>
-                  handleRecipeToSetClick(
-                    e,
-                    recipe.id,
-                    recipe.name,
-                    recipe.calories
-                  )
-                }
+                onClick={(e) => handleRecipeToSetClick(e, recipe.id)}
               >
                 <div className="recipes-gallery__recipe-name">
                   {recipe.name}
