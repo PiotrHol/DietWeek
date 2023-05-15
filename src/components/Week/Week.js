@@ -47,15 +47,16 @@ export const Week = ({
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.userId);
   const activeWeek = useSelector((state) => state.diet.activeWeek);
+  const recipesObj = useSelector((state) => state.diet.recipes);
 
   useEffect(() => {
     if (isEdit && !weekDays) {
       const singleDayDishes = {
-        breakfast: [],
-        secondBreakfast: [],
-        snack: [],
-        dinner: [],
-        supper: [],
+        breakfast: "",
+        secondBreakfast: "",
+        snack: "",
+        dinner: "",
+        supper: "",
       };
       dispatch(
         setAllDays({
@@ -71,7 +72,7 @@ export const Week = ({
     } else {
       dispatch(setAllDays(weekDays.week));
     }
-    dispatch(recalculateCalories());
+    dispatch(recalculateCalories(recipesObj));
     return () => dispatch(clearWeek());
     // eslint-disable-next-line
   }, []);
@@ -115,8 +116,10 @@ export const Week = ({
       galleryDayAndCategorySetter([day, category]);
       showGallerySetter(true);
     } else {
-      const recipeToShowId = dietDays[day][category][0];
-      handleShowRecipe(recipeToShowId);
+      const recipeToShowId = dietDays[day][category];
+      if (Object.keys(recipesObj).includes(recipeToShowId)) {
+        handleShowRecipe(recipeToShowId);
+      }
     }
   };
 
@@ -128,17 +131,10 @@ export const Week = ({
     ) {
       setNewWeekNameError(false);
       setNewWeekNameErrorMessage("");
-      let summaryWeekCalories = 0;
-      for (const dietDay of defaultDietWeek) {
-        if (weekCalories[dietDay]) {
-          summaryWeekCalories += weekCalories[dietDay];
-        }
-      }
       const weekId = weekDays ? weekDays.id.toString() : Date.now().toString();
       let weekDataToSet = {
         id: weekId,
         name: newWeekName,
-        calories: summaryWeekCalories,
         week: dietDays,
       };
       if (weekDays) {
@@ -165,7 +161,7 @@ export const Week = ({
         } catch (error) {}
         dispatch(deleteActiveWeek());
       }
-      dispatch(setWeek(weekId, newWeekName, summaryWeekCalories, dietDays));
+      dispatch(setWeek(weekId, newWeekName, dietDays));
       closeWeekHandler();
     } else {
       setNewWeekNameError(true);
@@ -224,10 +220,11 @@ export const Week = ({
                   <div className="week__dish-category">
                     {defaultDietDish[dietDishIndex]}
                   </div>
-                  {dietDays[dietDay] &&
-                  dietDays[dietDay][dietDish].length > 0 ? (
+                  {dietDays[dietDay] && dietDays[dietDay][dietDish] ? (
                     <div className="week__dish-title week__dish-title--recipe">
-                      {dietDays[dietDay][dietDish][1]}
+                      {recipesObj[dietDays[dietDay][dietDish]]
+                        ? recipesObj[dietDays[dietDay][dietDish]].name
+                        : "Brak przepisu"}
                     </div>
                   ) : (
                     <div className="week__dish-title">
