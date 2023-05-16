@@ -42,10 +42,19 @@ const defaultDietWeekTitles = [
   "Niedziela",
 ];
 
+const defaultIngredientCategories = [
+  "Produkty mączne",
+  "Nabiał",
+  "Warzywa i owoce",
+  "Mięso i ryby",
+  "Inne",
+];
+
 export {
   recipeDefaultCategory,
   defaultDietDay,
   defaultDietWeek,
   defaultDietDish,
   defaultDietWeekTitles,
+  defaultIngredientCategories,
 };
