@@ -115,6 +115,7 @@ export const Weeks = () => {
                   name: dishIngredient.name.toLowerCase(),
                   quantity: Number(dishIngredient.quantity),
                   unit: dishIngredient.unit,
+                  type: dishIngredient.type ? dishIngredient.type : "Inne",
                   check: false,
                 });
               }
