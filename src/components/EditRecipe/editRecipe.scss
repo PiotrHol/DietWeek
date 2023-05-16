@@ -55,7 +55,8 @@
         border-color: $errorColor;
       }
     }
-    &-name {
+    &-name,
+    &-type-select {
       width: 50%;
     }
     &-quantity {
@@ -63,6 +64,9 @@
     }
     &-select {
       width: 20%;
+      &--error {
+        border-color: $errorColor !important;
+      }
     }
   }
   &__select {

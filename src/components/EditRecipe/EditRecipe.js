@@ -22,6 +22,7 @@ import { deleteActiveWeek } from "../../redux/actions/dietActions";
 import {
   defaultDietWeek,
   defaultDietDay,
+  defaultIngredientCategories,
 } from "../../settings/recipesCategory";
 
 export const EditRecipe = ({
@@ -37,9 +38,12 @@ export const EditRecipe = ({
   const [newIngredientName, setNewIngredientName] = useState("");
   const [newIngredientQuantity, setNewIngredientQuantity] = useState("");
   const [newIngredientUnit, setNewIngredientUnit] = useState("g");
+  const [newIngredientType, setNewIngredientType] =
+    useState("Wybierz kategorie");
   const [newIngredientNameError, setNewIngredientNameError] = useState(false);
   const [newIngredientQuantityError, setNewIngredientQuantityError] =
     useState(false);
+  const [newIngredientTypeError, setNewIngredientTypeError] = useState(false);
   const [category, setCategory] = useState(recipeDefaultCategory[0]);
   const {
     register,
@@ -77,10 +81,12 @@ export const EditRecipe = ({
       newIngredientName.length < 50 &&
       newIngredientQuantity &&
       newIngredientQuantity < 10000 &&
-      newIngredientUnit
+      newIngredientUnit &&
+      newIngredientType !== "Wybierz kategorie"
     ) {
       setNewIngredientNameError(false);
       setNewIngredientQuantityError(false);
+      setNewIngredientTypeError(false);
       setIngredients((prev) => [
         ...prev,
         {
@@ -88,26 +94,29 @@ export const EditRecipe = ({
           name: newIngredientName,
           quantity: Number(newIngredientQuantity),
           unit: newIngredientUnit,
+          type: newIngredientType,
         },
       ]);
       setNewIngredientName("");
       setNewIngredientQuantity("");
       setNewIngredientUnit("g");
+      setNewIngredientType("Wybierz kategorie");
     } else {
       if (
         newIngredientName.length >= 50 ||
-        !newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź0-9%()\- ]*$/g)
+        !newIngredientName.match(/^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź0-9%()\- ]*$/g) ||
+        newIngredientName.length === 0
       ) {
         setNewIngredientName("");
         setNewIngredientNameError(true);
       }
-      if (newIngredientQuantity >= 10000) {
+      if (newIngredientQuantity >= 10000 || newIngredientQuantity === "") {
         setNewIngredientQuantity("");
         setNewIngredientQuantityError(true);
       }
-      if (newIngredientName.length === 0 && newIngredientQuantity === "") {
-        setNewIngredientNameError(true);
-        setNewIngredientQuantityError(true);
+      if (newIngredientType === "Wybierz kategorie") {
+        setNewIngredientType("Wybierz kategorie");
+        setNewIngredientTypeError(true);
       }
     }
   };
@@ -252,6 +261,36 @@ export const EditRecipe = ({
               <option className="edit-recipe__select-option" value="szt">
                 szt
               </option>
+            </select>
+          </div>
+          <div className="edit-recipe__add-ingredient">
+            <select
+              className={classNames(
+                "edit-recipe__select edit-recipe__add-ingredient-type-select",
+                {
+                  "edit-recipe__add-ingredient-select--error":
+                    newIngredientTypeError,
+                }
+              )}
+              value={newIngredientType}
+              onChange={(e) => setNewIngredientType(e.target.value)}
+            >
+              <option
+                value="Wybierz kategorie"
+                style={{ display: "none" }}
+                disabled
+              >
+                Wybierz kategorie
+              </option>
+              {defaultIngredientCategories.map((ingredientCategory, index) => (
+                <option
+                  key={index}
+                  className="edit-recipe__select-option"
+                  value={ingredientCategory}
+                >
+                  {ingredientCategory}
+                </option>
+              ))}
             </select>
           </div>
           <Button
