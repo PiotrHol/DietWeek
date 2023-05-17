@@ -2,6 +2,7 @@
 
 .shopping-list {
   width: 100%;
+  padding: 15px 0;
   &__empty {
     display: flex;
     flex-direction: column;
@@ -20,6 +21,16 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    &-title {
+      width: 100%;
+      text-align: center;
+      font-size: 17px;
+      font-weight: 600;
+      color: $textColor;
+      padding-top: 5px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid $mainColor;
+    }
   }
   &__ingredient {
     width: 100%;
