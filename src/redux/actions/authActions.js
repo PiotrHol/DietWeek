@@ -6,7 +6,7 @@ const typeName = {
 const setUser = (payload) => {
   return {
     type: typeName.setUser,
-    payload: payload.uid,
+    payload: { uid: payload.uid, email: payload.email },
   };
 };
 
