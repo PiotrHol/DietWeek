@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { checkIngredient } from "../../redux/actions/dietActions";
 import { getFirestore, doc, updateDoc } from "firebase/firestore";
 import { app } from "../../firebase";
+import { defaultIngredientCategories } from "../../settings/recipesCategory";
 
 export const ShoppingList = () => {
   const activeWeek = useSelector((state) => state.diet.activeWeek);
@@ -19,9 +20,6 @@ export const ShoppingList = () => {
         };
       })
     : null;
-  const sortIngredientsList = ingredientsList
-    ? ingredientsList.sort((a, b) => a.check - b.check)
-    : [];
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.auth.userId);
 
@@ -37,42 +35,84 @@ export const ShoppingList = () => {
 
   return (
     <div className="shopping-list">
-      {sortIngredientsList.length > 0 ? (
-        <div className="shopping-list__list">
-          {sortIngredientsList.map((ingredient) => (
-            <div
-              key={ingredient.id}
-              className={classNames("shopping-list__ingredient", {
-                "shopping-list__ingredient--active": ingredient.check,
-              })}
-              onClick={() =>
-                ingredientClickHandler(ingredient.id, ingredient.check)
-              }
-            >
-              <div className="shopping-list__ingredient-content">
-                <div className="shopping-list__ingredient-value">
-                  {ingredient.name}
+      {ingredientsList.length > 0 ? (
+        <>
+          {defaultIngredientCategories.map((ingredientCategory, index) => {
+            let ingredientCategoryProductsList = ingredientsList.filter(
+              (ingredient) =>
+                ingredient.type &&
+                ingredient.type.toLowerCase() ===
+                  ingredientCategory.toLowerCase()
+            );
+            if (ingredientCategory === "Inne") {
+              const ingredientsWithoutCategory = ingredientsList.filter(
+                (ingredient) =>
+                  !defaultIngredientCategories.includes(ingredient.type) ||
+                  ingredient.type === undefined
+              );
+              ingredientCategoryProductsList = [
+                ...ingredientCategoryProductsList,
+                ...ingredientsWithoutCategory,
+              ];
+            }
+            if (ingredientCategoryProductsList.length > 0) {
+              return (
+                <div key={index}>
+                  <div className="shopping-list__list-title">
+                    {ingredientCategory}
+                  </div>
+                  <div className="shopping-list__list">
+                    {ingredientCategoryProductsList
+                      .sort((a, b) => a.check - b.check)
+                      .map((ingredient) => (
+                        <div
+                          key={`${index}-${ingredient.id}`}
+                          className={classNames("shopping-list__ingredient", {
+                            "shopping-list__ingredient--active":
+                              ingredient.check,
+                          })}
+                          onClick={() =>
+                            ingredientClickHandler(
+                              ingredient.id,
+                              ingredient.check
+                            )
+                          }
+                        >
+                          <div className="shopping-list__ingredient-content">
+                            <div className="shopping-list__ingredient-value">
+                              {ingredient.name}
+                            </div>
+                            <div className="shopping-list__ingredient-value">
+                              - {ingredient.quantity}
+                            </div>
+                            <div className="shopping-list__ingredient-value">
+                              {ingredient.unit}
+                            </div>
+                          </div>
+                          <div
+                            className={classNames(
+                              "shopping-list__ingredient-check",
+                              {
+                                "shopping-list__ingredient-check--active":
+                                  ingredient.check,
+                              }
+                            )}
+                          >
+                            <FontAwesomeIcon
+                              icon={faCheck}
+                              className="shopping-list__ingredient-check-icon"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                  </div>
                 </div>
-                <div className="shopping-list__ingredient-value">
-                  - {ingredient.quantity}
-                </div>
-                <div className="shopping-list__ingredient-value">
-                  {ingredient.unit}
-                </div>
-              </div>
-              <div
-                className={classNames("shopping-list__ingredient-check", {
-                  "shopping-list__ingredient-check--active": ingredient.check,
-                })}
-              >
-                <FontAwesomeIcon
-                  icon={faCheck}
-                  className="shopping-list__ingredient-check-icon"
-                />
-              </div>
-            </div>
-          ))}
-        </div>
+              );
+            } else {
+              return null;
+            }
+          })}
+        </>
       ) : (
         <div className="shopping-list__empty">
           <div className="shopping-list__empty-text">
