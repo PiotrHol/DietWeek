@@ -11,6 +11,7 @@ import { Recipes } from "../Recipes/Recipes";
 import { Weeks } from "../Weeks/Weeks";
 import { ActiveWeek } from "../ActiveWeek/ActiveWeek";
 import { ShoppingList } from "../ShoppingList/ShoppingList";
+import { Settings } from "../Settings/Settings";
 
 export const Home = () => {
   let { path, url } = useRouteMatch();
@@ -45,6 +46,7 @@ export const Home = () => {
         </PrivateRoute>
         <PrivateRoute path={`${path}/settings`}>
           <HomeHeader title="Ustawienia" />
+          <Settings />
         </PrivateRoute>
       </Switch>
       <Menu url={url} />
