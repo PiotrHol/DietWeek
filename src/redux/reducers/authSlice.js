@@ -2,6 +2,7 @@ import { typeName } from "../actions/authActions";
 
 const initialState = {
   userId: null,
+  userEmail: null,
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
@@ -9,12 +10,14 @@ const authReducer = (state = initialState, { type, payload }) => {
     case typeName.setUser:
       return {
         ...state,
-        userId: payload,
+        userId: payload.uid,
+        userEmail: payload.email,
       };
     case typeName.removeUser:
       return {
         ...state,
         userId: null,
+        userEmail: null,
       };
     default:
       return state;
