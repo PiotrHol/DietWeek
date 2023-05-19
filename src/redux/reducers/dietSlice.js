@@ -90,11 +90,11 @@ const dietReducer = (state = initialState, { type, payload }) => {
         recipes: tempRecipesObj,
       };
     case typeName.deleteRecipe:
-      const tempRecipesObjToSet = state.recipes;
+      let tempRecipesObjToSet = state.recipes;
       delete tempRecipesObjToSet[payload];
       return {
         ...state,
-        recipes: tempRecipesObjToSet,
+        recipes: { ...tempRecipesObjToSet },
       };
     case typeName.setWeek:
       const isWeekExists = state.weeks.some((week) => week.id === payload.id);
