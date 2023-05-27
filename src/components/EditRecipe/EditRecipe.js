@@ -24,6 +24,7 @@ import {
   defaultDietDay,
   defaultIngredientCategories,
 } from "../../settings/recipesCategory";
+import { showNotification } from "../../redux/actions/notificationActions";
 
 export const EditRecipe = ({
   recipeId = null,
@@ -90,7 +91,7 @@ export const EditRecipe = ({
       setIngredients((prev) => [
         ...prev,
         {
-          id: prev.length + 1,
+          id: Date.now().toString(),
           name: newIngredientName,
           quantity: Number(newIngredientQuantity),
           unit: newIngredientUnit,
@@ -164,6 +165,7 @@ export const EditRecipe = ({
       dispatch(deleteActiveWeek());
     }
     dispatch(setRecipe(idOfRecipe, editFormdata, category, ingredients));
+    dispatch(showNotification("Przepis został zapisany"));
     closeHandler();
   };
 
