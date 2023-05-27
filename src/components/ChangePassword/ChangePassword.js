@@ -10,6 +10,8 @@ import {
   EmailAuthProvider,
 } from "firebase/auth";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { showNotification } from "../../redux/actions/notificationActions";
 
 export const ChangePassword = () => {
   const {
@@ -21,6 +23,7 @@ export const ChangePassword = () => {
   } = useForm();
   const userEmail = useSelector((state) => state.auth.userEmail);
   const [submitError, setSubmitError] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (submitError) {
@@ -37,6 +40,7 @@ export const ChangePassword = () => {
       const credentaial = EmailAuthProvider.credential(userEmail, oldPassword);
       await reauthenticateWithCredential(auth.currentUser, credentaial);
       await updatePassword(auth.currentUser, newPassword);
+      dispatch(showNotification("Hasło zostało zmienione"));
     } catch (e) {
       switch (e.code) {
         case "auth/wrong-password":
