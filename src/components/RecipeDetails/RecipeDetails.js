@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { deleteRecipe } from "../../redux/actions/dietActions";
 import { getFirestore, doc, deleteDoc } from "firebase/firestore";
 import { app } from "../../firebase";
+import { showNotification } from "../../redux/actions/notificationActions";
 
 export const RecipeDetails = ({
   recipeId,
@@ -45,6 +46,7 @@ export const RecipeDetails = ({
       );
     } catch (error) {}
     dispatch(deleteRecipe(recipeId));
+    dispatch(showNotification("Przepis został usunięty"));
     closeHandler();
   };
 
