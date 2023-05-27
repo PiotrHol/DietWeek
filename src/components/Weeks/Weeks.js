@@ -26,6 +26,7 @@ import {
   defaultDietDay,
 } from "../../settings/recipesCategory";
 import classNames from "classnames";
+import { showNotification } from "../../redux/actions/notificationActions";
 
 export const Weeks = () => {
   let weeks = useSelector((state) => state.diet.weeks);
@@ -86,6 +87,7 @@ export const Weeks = () => {
       dispatch(deleteActiveWeek());
     }
     dispatch(deleteWeek(weekId));
+    dispatch(showNotification("Przepis został usunięty"));
   };
 
   const handleSetActiveWeek = async (weekData) => {
@@ -141,6 +143,7 @@ export const Weeks = () => {
     setPopupTitle("");
     setPopupContent(null);
     dispatch(setActiveWeek(weekData, { ...ingredientsData }));
+    dispatch(showNotification("Tydzień został ustawiony jako aktywny"));
   };
 
   const handleShowRecipe = (recipeId) => {
