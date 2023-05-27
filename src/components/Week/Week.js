@@ -28,6 +28,7 @@ import {
 } from "firebase/firestore";
 import { app } from "../../firebase";
 import { deleteActiveWeek } from "../../redux/actions/dietActions";
+import { showNotification } from "../../redux/actions/notificationActions";
 
 export const Week = ({
   isEdit,
@@ -162,6 +163,7 @@ export const Week = ({
         dispatch(deleteActiveWeek());
       }
       dispatch(setWeek(weekId, newWeekName, dietDays));
+      dispatch(showNotification("Tydzień został zapisany"));
       closeWeekHandler();
     } else {
       setNewWeekNameError(true);
