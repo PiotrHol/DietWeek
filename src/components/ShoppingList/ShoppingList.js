@@ -35,7 +35,7 @@ export const ShoppingList = () => {
 
   return (
     <div className="shopping-list">
-      {ingredientsList.length > 0 ? (
+      {ingredientsList && ingredientsList.length > 0 ? (
         <>
           {defaultIngredientCategories.map((ingredientCategory, index) => {
             let ingredientCategoryProductsList = ingredientsList.filter(
