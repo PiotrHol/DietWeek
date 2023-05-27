@@ -12,6 +12,7 @@ import { Weeks } from "../Weeks/Weeks";
 import { ActiveWeek } from "../ActiveWeek/ActiveWeek";
 import { ShoppingList } from "../ShoppingList/ShoppingList";
 import { Settings } from "../Settings/Settings";
+import { Notification } from "../Notification/Notification";
 
 export const Home = () => {
   let { path, url } = useRouteMatch();
@@ -49,6 +50,7 @@ export const Home = () => {
           <Settings />
         </PrivateRoute>
       </Switch>
+      <Notification />
       <Menu url={url} />
     </div>
   );
