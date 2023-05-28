@@ -5,6 +5,8 @@
   font-family: $base-font;
   font-weight: 700;
   outline: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
   transition: opacity 0.2s ease-out;
   &:hover {
     opacity: 0.85;
