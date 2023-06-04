@@ -1,6 +1,6 @@
 # DietWeek
 
-Aplikacja pomagająca w planowaniu diety oraz zarządzaniu posiadanymi przepisami. Po utworzeniu konta, używkownik ma możliwość dodawania i edycji przepisów oraz tygodni ułożonych na ich podstawie. Stworzenie tygodnia, generuje listę zakupów produktów potrzebnych w danym tygodniu wraz z łatwym dostępem do niej jak i przepisów. Aplikacja obecnie jest dostępna tylko na ekranach mobilnych.
+Aplikacja pomagająca w planowaniu diety oraz zarządzaniu posiadanymi przepisami. Po utworzeniu konta, używkownik ma możliwość dodawania i edycji przepisów oraz tygodni ułożonych na ich podstawie. Stworzenie tygodnia, generuje listę zakupów produktów potrzebnych w danym tygodniu wraz z łatwym dostępem do niej. Aplikacja obecnie jest dostępna tylko na ekranach mobilnych.
 
 An application to help you plan your diet and manage your recipes. After creating an account, the user has the ability to add and edit recipes and weeks arranged based on them. Creating a week, generates a shopping list of products needed for the week along with easy access to it as well as recipes. The application is currently only available on mobile screens.
 
