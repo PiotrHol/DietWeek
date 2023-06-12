@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./scss/main.scss";
 import { HashRouter, Switch, Route } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -7,14 +7,10 @@ import { setUser, removeUser } from "./redux/actions/authActions";
 import { clearUserData } from "./redux/actions/dietActions";
 import { PrivateRoute } from "./PrivateRoute";
 import { Redirect } from "react-router-dom";
-import { DesktopNotAvailable } from "./components/DesktopNotAvailable/DesktopNotAvailable";
 import { LogPage } from "./components/LogPage/LogPage";
 import { Home } from "./components/Home/Home";
 
 function App() {
-  const [isDesktopView, setIsDesktopView] = useState(
-    window.innerWidth > 768 ? true : false
-  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -26,37 +22,27 @@ function App() {
         dispatch(clearUserData());
       }
     });
-    const handleResize = () =>
-      window.innerWidth > 768
-        ? setIsDesktopView(true)
-        : setIsDesktopView(false);
-    window.addEventListener("resize", handleResize);
     return () => {
       unsubscribeAuth();
-      window.removeEventListener("resize", handleResize);
     };
     // eslint-disable-next-line
   }, []);
 
   return (
     <div className="app">
-      {isDesktopView ? (
-        <DesktopNotAvailable />
-      ) : (
-        <HashRouter basename="/">
-          <Switch>
-            <PrivateRoute path="/home">
-              <Home />
-            </PrivateRoute>
-            <Route path="/login">
-              <LogPage />
-            </Route>
-            <Route path="*">
-              <Redirect to="/home" />
-            </Route>
-          </Switch>
-        </HashRouter>
-      )}
+      <HashRouter basename="/">
+        <Switch>
+          <PrivateRoute path="/home">
+            <Home />
+          </PrivateRoute>
+          <Route path="/login">
+            <LogPage />
+          </Route>
+          <Route path="*">
+            <Redirect to="/home" />
+          </Route>
+        </Switch>
+      </HashRouter>
     </div>
   );
 }
