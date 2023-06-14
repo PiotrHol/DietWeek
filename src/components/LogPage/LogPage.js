@@ -115,6 +115,9 @@ export const LogPage = () => {
         <Logo size={50} />
       </div>
       <div className="log-page__content">
+        <div className="log-page__content-logo">
+          <Logo size={40} />
+        </div>
         {isNewAccountForm ? (
           <form onSubmit={handleSubmit(onNewAccountSubmit)}>
             <FormInput
