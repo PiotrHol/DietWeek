@@ -21,3 +21,9 @@
     @content;
   }
 }
+
+@mixin mediaMax {
+  @media screen and (min-width: 1025px) {
+    @content;
+  }
+}
