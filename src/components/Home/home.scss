@@ -4,6 +4,11 @@
   width: 100%;
   padding: 20px;
   margin-bottom: 56px;
+  @include mediaDesktop {
+    width: calc(100% - 93px);
+    margin-bottom: 0;
+    margin-left: 93px;
+  }
   &__header {
     display: flex;
     justify-content: space-between;
