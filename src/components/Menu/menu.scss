@@ -11,6 +11,19 @@
   border-top: 3px solid $mainColor;
   background-color: $bgColor;
   color: $secondaryTextColor;
+  @include mediaDesktop {
+    width: 93px;
+    min-height: fit-content;
+    height: 100vh;
+    overflow-y: auto;
+    top: 0;
+    flex-direction: column;
+    border-top: none;
+    border-left: 5px solid $mainColor;
+    border-right: 5px solid $mainColor;
+    background-color: $mainColor;
+    box-shadow: 2px 0 5px $shadowColor;
+  }
   &__link {
     display: block;
     width: calc(100% / 5);
@@ -22,6 +35,26 @@
     -webkit-tap-highlight-color: transparent;
     &:focus {
       outline: none;
+    }
+    @include mediaDesktop {
+      width: 100%;
+      height: auto;
+      margin: 8px 0;
+      color: $whiteColor;
+      &:last-child {
+        margin-top: auto;
+      }
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        border-radius: 6px;
+      }
+      &--active {
+        background-color: rgba(255, 255, 255, 0.9) !important;
+        border-radius: 6px;
+      }
+    }
+    @include mediaMax {
+      padding: 8px 5px;
     }
   }
   &__item {
