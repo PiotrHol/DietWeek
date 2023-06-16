@@ -38,15 +38,17 @@ export const Menu = ({ url }) => {
     const allMenuItems = document.querySelectorAll(".menu__item");
     for (const menuItem of allMenuItems) {
       menuItem.classList.remove("menu__item--active");
+      menuItem.parentElement.classList.remove("menu__link--active");
     }
     setShowSubmenu(false);
     setIsSettingsPage(false);
     e.currentTarget.classList.add("menu__item--active");
+    e.currentTarget.parentElement.classList.add("menu__link--active");
   };
 
   return (
     <ul className="menu">
-      <Link className="menu__link" to={url}>
+      <Link className="menu__link menu__link--active" to={url}>
         <li
           className="menu__item menu__item--active"
           onClick={updateActiveMenuItem}
@@ -120,7 +122,7 @@ export const Menu = ({ url }) => {
         </li>
       </Link>
       <li
-        className="menu__item hide-on-mobile"
+        className="menu__link menu__item hide-on-mobile"
         onClick={() => signOut(getAuth())}
       >
         <FontAwesomeIcon
