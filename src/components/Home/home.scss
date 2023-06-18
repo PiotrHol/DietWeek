@@ -9,6 +9,9 @@
     margin-bottom: 0;
     margin-left: 93px;
   }
+  @include mediaMax {
+    padding: 20px 30px;
+  }
   &__header {
     display: flex;
     justify-content: space-between;
