@@ -18,6 +18,11 @@
   cursor: pointer;
   box-shadow: 0 0 6px -1px $shadowColor;
   transition: background-color 0.3s ease-out, color 0.3s ease-out;
+  @include mediaMax {
+    right: 30px;
+    bottom: 30px;
+    padding: 10px 14px;
+  }
   &:hover {
     background-color: $mainColor;
     color: $whiteColor;
