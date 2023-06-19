@@ -31,6 +31,10 @@
       opacity: 1;
       transform: translateY(0);
     }
+    @include mediaDesktop {
+      margin-top: -3%;
+      width: auto;
+    }
   }
   &__header {
     display: flex;
