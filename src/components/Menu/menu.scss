@@ -41,6 +41,7 @@
       height: auto;
       margin: 8px 0;
       color: $whiteColor;
+      padding: 0;
       &:last-child {
         margin-top: auto;
       }
@@ -52,9 +53,6 @@
         background-color: rgba(255, 255, 255, 0.9) !important;
         border-radius: 6px;
       }
-    }
-    @include mediaMax {
-      padding: 8px 5px;
     }
   }
   &__item {
@@ -75,6 +73,12 @@
     }
     &--active {
       color: $mainColor;
+    }
+    @include mediaDesktop {
+      padding: 5px;
+    }
+    @include mediaMax {
+      padding: 8px 5px;
     }
   }
   &__submenu {
