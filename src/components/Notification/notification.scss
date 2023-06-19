@@ -10,10 +10,9 @@
   color: $secondaryColor;
   text-align: center;
   margin: 0 auto;
-  border: 1px solid $secondaryColor;
   border-radius: 5px;
   background-color: $whiteColor;
-  box-shadow: 0 0 5px -1px $shadowColor;
+  box-shadow: 0 0 5px -1px $secondaryColor;
   @include mediaTablet {
     width: 400px;
   }
