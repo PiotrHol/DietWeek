@@ -35,6 +35,9 @@
       border: 2px solid $mainColor;
       color: $mainColor;
     }
+    @include mediaMax {
+      margin: 0 7px 10px;
+    }
   }
   &__list {
     width: 100%;
@@ -48,6 +51,9 @@
       div {
         font-size: 15px;
         font-weight: 700;
+      }
+      @include mediaMax {
+        padding: 10px 12px;
       }
     }
   }
@@ -73,27 +79,62 @@
     div {
       text-align: left;
     }
+    @include mediaMax {
+      padding: 15px 12px;
+    }
     &-name {
       width: 45%;
       font-weight: 700;
+      @include mediaMax {
+        width: 40%;
+      }
+      @include mediaFullWidth {
+        width: 29%;
+      }
     }
     &-category {
       width: 30%;
+      @include mediaMax {
+        width: 20%;
+      }
+      @include mediaFullWidth {
+        width: 10%;
+      }
     }
     &-calories {
       width: 20%;
+      @include mediaMax {
+        width: 20%;
+      }
+      @include mediaFullWidth {
+        width: 10%;
+      }
     }
     &-ingredients {
       display: none;
+      @include mediaMax {
+        display: block;
+        width: 15%;
+      }
+      @include mediaFullWidth {
+        width: 8%;
+      }
     }
     &-description {
       display: none;
+      @include mediaFullWidth {
+        display: block;
+        width: 43%;
+      }
     }
   }
   .popup__content {
     @include mediaTablet {
       max-width: 550px;
       padding: 30px;
+    }
+    @include mediaDesktop {
+      width: 550px;
     }
   }
 }
