@@ -126,10 +126,12 @@ export const Recipes = () => {
                   {recipe.calories} kcal
                 </div>
                 <div className="recipes__recipe-ingredients">
-                  {recipe.ingredients.length}
+                  {recipe.ingredients.length} szt.
                 </div>
                 <div className="recipes__recipe-description">
-                  {recipe.description.slice(0, 100)}
+                  {recipe.description.length > 150
+                    ? recipe.description.slice(0, 149) + "..."
+                    : recipe.description}
                 </div>
               </div>
             ))}
