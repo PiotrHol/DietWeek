@@ -14,6 +14,12 @@
       padding: 8px;
       border: 1px solid $textColor;
       border-radius: 5px;
+      @include mediaDesktop {
+        width: 50%;
+      }
+      @include mediaFullWidth {
+        width: 550px;
+      }
       &:focus {
         border-color: $mainColor;
         box-shadow: 0 0 4px $shadowColor;
@@ -33,6 +39,9 @@
     margin: 12px auto;
     &--active {
       margin-top: 30px;
+    }
+    @include mediaFullWidth {
+      width: 92%;
     }
   }
   &__day {
@@ -83,6 +92,11 @@
       &--recipe {
         color: $mainColor;
       }
+    }
+  }
+  .button {
+    @include mediaDesktop {
+      width: 120px !important;
     }
   }
 }
