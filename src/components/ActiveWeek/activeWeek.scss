@@ -16,4 +16,10 @@
   &__week {
     padding: 20px 3px;
   }
+  .popup__content {
+    @include mediaDesktop {
+      max-width: 550px;
+      padding: 30px;
+    }
+  }
 }
