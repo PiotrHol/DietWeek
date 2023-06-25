@@ -30,6 +30,10 @@
       align-items: center;
       justify-content: center;
     }
+    @include mediaDesktop {
+      width: 400px;
+      padding: 25px 25px 50px;
+    }
   }
   &__empty {
     text-align: center;
@@ -43,6 +47,9 @@
     font-weight: 600;
     &::first-letter {
       text-transform: capitalize;
+    }
+    @include mediaDesktop {
+      margin-bottom: 15px;
     }
   }
   &__recipe {
