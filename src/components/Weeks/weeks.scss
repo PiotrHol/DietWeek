@@ -88,9 +88,20 @@
     }
   }
   &__recipe-popup {
+    @include mediaDesktop {
+      width: 550px;
+    }
     .button:first-child {
       margin-left: 8px;
       margin-bottom: 8px;
+    }
+  }
+  .popup__content {
+    @include mediaDesktop {
+      padding: 30px;
+      .week {
+        width: 80vw;
+      }
     }
   }
 }
