@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/DietWeek/static/css/main.8fb6d597.css",
-    "main.js": "/DietWeek/static/js/main.3ce1bf34.js",
+    "main.css": "/DietWeek/static/css/main.202c5300.css",
+    "main.js": "/DietWeek/static/js/main.f88827c2.js",
     "service-worker.js": "/DietWeek/service-worker.js",
     "static/media/slick.svg": "/DietWeek/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/DietWeek/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/DietWeek/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/DietWeek/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/DietWeek/index.html",
-    "main.8fb6d597.css.map": "/DietWeek/static/css/main.8fb6d597.css.map",
-    "main.3ce1bf34.js.map": "/DietWeek/static/js/main.3ce1bf34.js.map"
+    "main.202c5300.css.map": "/DietWeek/static/css/main.202c5300.css.map",
+    "main.f88827c2.js.map": "/DietWeek/static/js/main.f88827c2.js.map"
   },
   "entrypoints": [
-    "static/css/main.8fb6d597.css",
-    "static/js/main.3ce1bf34.js"
+    "static/css/main.202c5300.css",
+    "static/js/main.f88827c2.js"
   ]
 }
