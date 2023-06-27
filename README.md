@@ -16,20 +16,20 @@ React, Sass, React Router, Firebase, Redux, classnames, dotenv, React Hook Form,
 
 - Login page
 
-<img src="src/images/screenshot1.png" width="400" />
+<img src="src/images/screenshot1.png" />
 
 - Home page
 
-<img src="src/images/screenshot2.png" width="400" />
+<img src="src/images/screenshot2.png" />
 
 - Recipe view
 
-<img src="src/images/screenshot3.png" width="400" />
+<img src="src/images/screenshot3.png" />
 
 - Recipes page
 
-<img src="src/images/screenshot4.png" width="400" />
+<img src="src/images/screenshot4.png" />
 
 - Shopping list page
 
-<img src="src/images/screenshot5.png" width="400" />
+<img src="src/images/screenshot5.png" />
