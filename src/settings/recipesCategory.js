@@ -44,9 +44,9 @@ const defaultDietWeekTitles = [
 
 const defaultIngredientCategories = [
   "Produkty mączne",
-  "Nabiał",
   "Warzywa i owoce",
   "Mięso i ryby",
+  "Nabiał",
   "Inne",
 ];
 
