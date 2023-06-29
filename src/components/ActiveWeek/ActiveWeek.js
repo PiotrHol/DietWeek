@@ -36,16 +36,22 @@ export const ActiveWeek = () => {
 
   return (
     <div className="active-week">
-      {activeWeek ? (
-        <div className="active-week__week">
-          <Week
-            isEdit={false}
-            isPopup={false}
-            weekName={activeWeek.name}
-            weekDays={activeWeek}
-            handleShowRecipe={showRecipe}
-          />
-        </div>
+      {activeWeekData ? (
+        activeWeekData.id ? (
+          <div className="active-week__week">
+            <Week
+              isEdit={false}
+              isPopup={false}
+              weekName={activeWeek.name}
+              weekDays={activeWeek}
+              handleShowRecipe={showRecipe}
+            />
+          </div>
+        ) : (
+          <div className="active-week__empty">
+            <div className="active-week__empty-text">Trwa ładowanie...</div>
+          </div>
+        )
       ) : (
         <div className="active-week__empty">
           <div className="active-week__empty-text">
