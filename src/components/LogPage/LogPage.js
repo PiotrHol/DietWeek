@@ -3,7 +3,7 @@ import "./logPage.scss";
 import {
   getAuth,
   setPersistence,
-  browserSessionPersistence,
+  browserLocalPersistence,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -51,7 +51,7 @@ export const LogPage = () => {
 
   const onNewAccountSubmit = ({ email, password }) => {
     const auth = getAuth();
-    setPersistence(auth, browserSessionPersistence).then(async () => {
+    setPersistence(auth, browserLocalPersistence).then(async () => {
       try {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
@@ -91,7 +91,7 @@ export const LogPage = () => {
   };
   const onLogInSubmit = ({ email, password }) => {
     const auth = getAuth();
-    setPersistence(auth, browserSessionPersistence).then(async () => {
+    setPersistence(auth, browserLocalPersistence).then(async () => {
       try {
         await signInWithEmailAndPassword(auth, email, password);
       } catch (e) {
