@@ -11,7 +11,7 @@ import { app } from "../../firebase";
 const initialState = {
   recipes: {},
   weeks: [],
-  activeWeek: null,
+  activeWeek: {},
 };
 
 const fetchUserData = async (dispatch, getState) => {
