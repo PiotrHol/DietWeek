@@ -1,11 +1,3 @@
-const recipeDefaultCategory = [
-  "Śniadanie",
-  "Drugie śniadanie",
-  "Przekąska",
-  "Obiad",
-  "Kolacja",
-];
-
 const defaultDietDish = [
   "Śniadanie",
   "Drugie śniadanie",
@@ -51,7 +43,6 @@ const defaultIngredientCategories = [
 ];
 
 export {
-  recipeDefaultCategory,
   defaultDietDay,
   defaultDietWeek,
   defaultDietDish,

@@ -6,7 +6,7 @@ import { Popup } from "../Popup/Popup";
 import { EditRecipe } from "../EditRecipe/EditRecipe";
 import { FixedButton } from "../FixedButton/FixedButton";
 import { RecipeDetails } from "../RecipeDetails/RecipeDetails";
-import { recipeDefaultCategory } from "../../settings/recipesCategory";
+import { defaultDietDish } from "../../settings/recipesCategory";
 import classNames from "classnames";
 
 export const Recipes = () => {
@@ -66,7 +66,7 @@ export const Recipes = () => {
 
   const handleSetFilter = (e) => {
     const filterCategory = e.target.dataset.category;
-    if (recipeDefaultCategory.some((category) => category === filterCategory)) {
+    if (defaultDietDish.some((category) => category === filterCategory)) {
       setActiveFilter(filterCategory);
       setRecipesToShow(
         recipes.filter((recipe) => recipe.category === filterCategory)
@@ -89,7 +89,7 @@ export const Recipes = () => {
         >
           Wszystko
         </div>
-        {recipeDefaultCategory.map((category, index) => (
+        {defaultDietDish.map((category, index) => (
           <div
             key={index}
             className={classNames("recipes__filter", {
