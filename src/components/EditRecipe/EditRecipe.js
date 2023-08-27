@@ -180,11 +180,11 @@ export const EditRecipe = ({
           inputOptions={register("recipeName", {
             required: "Musisz podać nazwę przepisu",
             maxLength: {
-              value: 50,
-              message: "Nazwa może zawierać maksymalnie 50 znaków",
+              value: 70,
+              message: "Nazwa może zawierać maksymalnie 70 znaków",
             },
             pattern: {
-              value: /^[a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź\-, ]*$/g,
+              value: /^[0-9a-zA-ZĄąĆćĘęŁłŃńÓóŚśŻżŹź()\-, ]*$/g,
               message: "Nazwa zawiera nieprawidłowe znaki",
             },
           })}
