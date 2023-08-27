@@ -17,7 +17,7 @@ import {
 } from "firebase/firestore";
 import { app } from "../../firebase";
 import { useSelector } from "react-redux";
-import { defaultDietDish } from "../../settings/recipesCategory";
+import { recipeDefaultCategory } from "../../settings/recipesCategory";
 import { deleteActiveWeek } from "../../redux/actions/dietActions";
 import {
   defaultDietWeek,
@@ -45,7 +45,7 @@ export const EditRecipe = ({
   const [newIngredientQuantityError, setNewIngredientQuantityError] =
     useState(false);
   const [newIngredientTypeError, setNewIngredientTypeError] = useState(false);
-  const [category, setCategory] = useState(defaultDietDish[0]);
+  const [category, setCategory] = useState(recipeDefaultCategory[0]);
   const {
     register,
     formState: { errors },
@@ -197,7 +197,7 @@ export const EditRecipe = ({
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            {defaultDietDish.map((singleCategory, index) => (
+            {recipeDefaultCategory.map((singleCategory, index) => (
               <option
                 key={index}
                 className="edit-recipe__select-option"
