@@ -20,14 +20,17 @@ function App() {
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(getAuth(), (user) => {
-      if (user) {
-        dispatch(setUser(user));
-        dispatch(setActiveWeek({}));
-      } else {
-        dispatch(removeUser());
-        dispatch(clearUserData());
-      }
-      dispatch(setCheckingUser(false));
+      const initTimeoutId = setTimeout(() => {
+        if (user) {
+          dispatch(setUser(user));
+          dispatch(setActiveWeek({}));
+        } else {
+          dispatch(removeUser());
+          dispatch(clearUserData());
+        }
+        dispatch(setCheckingUser(false));
+        clearTimeout(initTimeoutId);
+      }, 500);
     });
     return () => {
       unsubscribeAuth();
