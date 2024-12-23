@@ -3,6 +3,7 @@ import { typeName } from "../actions/authActions";
 const initialState = {
   userId: null,
   userEmail: null,
+  checkingUser: true,
 };
 
 const authReducer = (state = initialState, { type, payload }) => {
@@ -18,6 +19,11 @@ const authReducer = (state = initialState, { type, payload }) => {
         ...state,
         userId: null,
         userEmail: null,
+      };
+    case typeName.checkingUser:
+      return {
+        ...state,
+        checkingUser: payload,
       };
     default:
       return state;

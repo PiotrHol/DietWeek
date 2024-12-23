@@ -1,6 +1,7 @@
 const typeName = {
   setUser: "auth/setUser",
   removeUser: "auth/removeUser",
+  checkingUser: "auth/checkingUser",
 };
 
 const setUser = (payload) => {
@@ -16,4 +17,11 @@ const removeUser = () => {
   };
 };
 
-export { typeName, setUser, removeUser };
+const setCheckingUser = (isChecking) => {
+  return {
+    type: typeName.checkingUser,
+    payload: isChecking,
+  };
+};
+
+export { typeName, setUser, removeUser, setCheckingUser };
