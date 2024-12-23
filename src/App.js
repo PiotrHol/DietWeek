@@ -3,7 +3,11 @@ import "./scss/main.scss";
 import { HashRouter, Switch, Route } from "react-router-dom";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useDispatch } from "react-redux";
-import { setUser, removeUser } from "./redux/actions/authActions";
+import {
+  setUser,
+  removeUser,
+  setCheckingUser,
+} from "./redux/actions/authActions";
 import { setActiveWeek } from "./redux/actions/dietActions";
 import { clearUserData } from "./redux/actions/dietActions";
 import { PrivateRoute } from "./PrivateRoute";
@@ -23,6 +27,7 @@ function App() {
         dispatch(removeUser());
         dispatch(clearUserData());
       }
+      dispatch(setCheckingUser(false));
     });
     return () => {
       unsubscribeAuth();
